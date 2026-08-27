@@ -105,7 +105,7 @@ $$\text{Net ROI Multiplier} = \frac{\text{Treated Recovered (₹74,84,940)} - \t
 
 ## 3. Real Physical Execution Benchmarks (N = 1,500 Iterations)
 
-Measured using the executable benchmark harness ([`benchmark_runner.js`](./benchmark_runner.js)) on Node.js 22 V8 / AMD Ryzen 9 & Apple M-series testbeds:
+Measured using the executable benchmark harness ([`benchmark_runner.js`](../benchmark_runner.js)) on Node.js 22 V8 / AMD Ryzen 9 & Apple M-series testbeds:
 
 ```bash
 $ node benchmark_runner.js
@@ -148,7 +148,7 @@ $ node benchmark_runner.js
 | **Total Realized Inflow** | ₹21,80,000 (17.51%) | ₹54,15,750 (43.50%) | **₹77,02,815 (61.87% / 61.9%)** |
 | **Net Incremental Yield (IRY)** | 0.0% (Baseline) | +26.00% | **+49.30% True Net Gain** |
 | **Net Incremental Capital** | ₹0 | +₹29,13,300 | **+₹55,24,065** |
-| **Hackathon Execution Cost** | ₹0.00 | ₹3,45,000 (Salaries) | **₹0.00 (100% Free & Open Stack)** |
+| **Development & Infrastructure Cost** | ₹0.00 | ₹3,45,000 (Salaries) | **₹0.00 (100% Free & Open Stack)** |
 | **Batch Compute Cost** | ₹1,200 | ₹3,45,000 | **₹4,850 (Self-Hosted + APIs)** |
 | **Net ROI Multiplier** | 1,815x (Low absolute yield) | 14.7x | **1,542.2x Net Margin** |
 | **Mean Time to Resolution (MTTR)** | 9.4 Days | 14.2 Days | **1.8 Days (80.8% faster)** |

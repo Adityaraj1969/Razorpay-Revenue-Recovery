@@ -9,7 +9,7 @@
 
 ## 1. Zero-Cost & Open-Source Engineering Tenets
 
-RevLoop AI is engineered to be **100% reproducible for developers, hackathon judges, and evaluators** without requiring paid subscriptions, corporate API licenses, or proprietary carrier trunks:
+RevLoop AI is engineered to be **100% reproducible for enterprise developers, technical auditors, and evaluators** without requiring paid subscriptions, corporate API licenses, or proprietary carrier trunks:
 
 1. **Zero-Cost Local Orchestration:** The entire stack (Node.js API, Python Voice Bridge, PostgreSQL 16, Redis 7.4, and LiveKit WebRTC Server) spins up locally via a single `docker compose up` command.
 2. **Generous Free-Tier Cloud Fallbacks:** Designed out-of-the-box with Google AI Studio Gemini Flash (Free Tier), Groq Cloud (Free Tier), Neon Postgres (Free Tier), and Meta WhatsApp Cloud Sandbox (Free Tier).

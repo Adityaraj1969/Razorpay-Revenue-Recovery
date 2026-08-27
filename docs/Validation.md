@@ -13,7 +13,7 @@ Validation of an autonomous revenue recovery agent requires proving that the sys
 
 ### 1.1 Testbed Environment & Hardware Parameters
 - **Testbed Platform:** Local Docker cluster on Apple M-series / AMD Ryzen 9, Node.js 22 V8 runtime, Redis 7.4-alpine, PostgreSQL 16.
-- **Test Suite Execution:** Benchmarked via [`benchmark_runner.js`](./benchmark_runner.js) across $N = 1,500$ real physical iterations measuring CPU register, memory, and cryptographic timing via `process.hrtime.bigint()`.
+- **Test Suite Execution:** Benchmarked via [`benchmark_runner.js`](../benchmark_runner.js) across $N = 1,500$ real physical iterations measuring CPU register, memory, and cryptographic timing via `process.hrtime.bigint()`.
 
 ```
        ┌─────────────────────────────────────────────────────────────┐
@@ -99,24 +99,19 @@ The 150-test automated chaos validation suite is partitioned into 6 distinct str
 ## 6. Automated Test Runner Output
 
 ```bash
-$ npm run test:validation
+$ pnpm exec vitest run tests/unit/
 
-> revloop-core@2.4.0 test:validation
-> jest --config jest.validation.config.js --runInBand
+ RUN  v2.1.9 C:/Users/lenovo/.../Razorpay-Revenue-Recovery
 
- PASS  tests/validation/concurrencyRaces.spec.ts (25 tests)
- PASS  tests/validation/promptInjectionSanitizer.spec.ts (25 tests)
- PASS  tests/validation/passiveTelemetryDegradation.spec.ts (25 tests)
- PASS  tests/validation/regulatoryQuietHours.spec.ts (25 tests)
- PASS  tests/validation/networkPartitions.spec.ts (25 tests)
- PASS  tests/validation/ptpTemporalBounds.spec.ts (25 tests)
- PASS  tests/validation/perCaseAuditIntegrity.spec.ts (20 tests)
+ ✓ tests/unit/webhookAuth.spec.ts (4 tests) 4ms
+ ✓ tests/unit/ruleClassifier.spec.ts (5 tests) 4ms
+ ✓ tests/unit/policyGate.spec.ts (10 tests) 5ms
+ ✓ tests/unit/hashChain.spec.ts (6 tests) 6ms
+ ✓ tests/unit/concessionSanitizer.spec.ts (4 tests) 3ms
 
-Test Suites: 7 passed, 7 total
-Tests:       170 passed, 170 total
-Snapshots:   0 total
-Time:        5.412 s
-Ran all validation suites.
+ Test Files  5 passed (5)
+      Tests  29 passed (29)
+   Duration  702ms
 ```
 
 ---

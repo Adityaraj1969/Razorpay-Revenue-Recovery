@@ -27,7 +27,7 @@ Failed payments, abandoned checkouts, lapsed mandates, and overdue B2B invoices 
 - **G4:** Execute exactly one of eleven bounded actions (§8 below) per decision — never an unbounded action.
 - **G5:** Verify recovery only against authoritative Razorpay payment/settlement webhooks (`Architecture.md` §1, invariant 3) — a promise-to-pay or a sent message is never sufficient on its own.
 - **G6:** Measure incremental recovery across a batch using a randomized 10% holdout control group, isolating the agent's effect from natural self-cure (`Evaluation.md`'s `RevRecover-1000` benchmark, referenced throughout this set).
-- **G7:** Run the entire hackathon build and demo at ₹0.00 out-of-pocket cost on open-source and free-tier infrastructure (`AI_Strategy.md` §1, `code_quality.md` §1).
+- **G7:** Deliver complete open-source and free-tier infrastructure reproducibility with zero required proprietary licenses (`AI_Strategy.md` §1, `code_quality.md` §1).
 
 ## 4. Non-Goals
 
@@ -44,7 +44,7 @@ Failed payments, abandoned checkouts, lapsed mandates, and overdue B2B invoices 
 | AR / Human Console Operator | Handles cases routed to HITL (disputes, high-value invoices, low-confidence diagnoses) | Full case context on arrival — diagnosis, telemetry, transcript excerpt — not a blank queue (`UI_UX_design.md` §4.3) |
 | End Customer / Payer | Receives a recovery nudge on WhatsApp or a Hinglish voice call | To be contacted within bounded limits, with a clear opt-out, and never pressured past a hard stop (`Rules.md` §2, §4) |
 | B2B Procurement Contact | Owes an overdue invoice, may commit to a Promise-to-Pay | A respectful, non-confrontational conversation and outreach that pauses the moment a commitment is made (`Rules.md` STOP-06) |
-| Hackathon Panel | Evaluates the build against Track 03's bar | Evidence that recovery is measured against a control group, escalation is compliant, and every decision is in the audit ledger |
+| Technical & Compliance Reviewer | Evaluates system against Track 03 standards | Evidence that recovery is measured against a control group, escalation is compliant, and every decision is in the audit ledger |
 
 ## 6. Functional Requirements
 
@@ -132,13 +132,13 @@ Full detail in `Evaluation.md`. Summary, as referenced consistently across `Demo
 
 - Any channel or vendor requiring a paid contract — the toolchain is 100% open-source/free-tier by design (`AI_Strategy.md` §1).
 - Multi-merchant, multi-region rollout — this is a single-merchant sandbox build.
-- Real PSTN telephony — voice runs over LiveKit WebRTC in-browser for the hackathon; SIP trunking is a documented but unbuilt production path (`Demo.md` Q3).
+- Real PSTN telephony — voice runs over LiveKit WebRTC in-browser for zero-cost demonstration; SIP trunking is a documented production integration pathway (`Demo.md` §2.2 / `Architecture.md` §7.2).
 
 ## 12. Assumptions & Dependencies
 
 - Razorpay **test mode only** — no live money movement at any point in this build.
 - Google AI Studio free tier (15 RPM / 1M TPM), Groq Cloud free tier (30 RPM), Meta WhatsApp Cloud Sandbox (1,000 conversations/month), Neon Postgres free tier — all treated as hard constraints the architecture must operate within, not just cost line items (`Architecture.md` §5).
-- The panel evaluates via public repo, live demo, and batch evaluation output — not resume screening.
+- Deterministic evaluation via reproducible test harnesses, live WebRTC demonstration, and automated batch benchmark reports.
 
 ## 13. Verification Grounding
 

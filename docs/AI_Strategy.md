@@ -9,7 +9,7 @@
 
 ## 1. Zero-Cost & Open-Source AI Architecture
 
-To ensure 100% reproducibility, zero financial barriers, and maximum hackathon accessibility, RevLoop AI is engineered entirely on **Open-Source frameworks and Generous Free-Tier AI APIs**:
+To ensure 100% reproducibility, zero financial barriers, and seamless local evaluation, RevLoop AI is engineered entirely on **Open-Source frameworks and High-Throughput Free-Tier AI APIs**:
 
 ```
        ┌─────────────────────────────────────────────────────────────┐
@@ -157,28 +157,28 @@ You are speaking over the phone with {{customer_name}} regarding their pending i
 
 ## 5. Zero-Cost Full-Duplex Hinglish Voice Pipeline
 
-To eliminate expensive PSTN telephony fees for hackathon development and live judging demonstrations, RevLoop AI implements **LiveKit Open-Source WebRTC + Gemini Multimodal Live Audio**:
+To eliminate expensive PSTN telephony fees for development and interactive evaluation, RevLoop AI implements **LiveKit Open-Source WebRTC + Gemini Multimodal Live Audio**:
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Judge as Browser WebRTC Client (Simulated Phone)
+    actor Client as Browser WebRTC Client (Interactive Client)
     participant LK as LiveKit Open-Source Server (Docker)
     participant Agent as LiveKit Voice Agent Worker (Python/Node)
     participant Gemini as Gemini 2.5 Flash Live API (Google AI Studio Free Tier)
 
-    Judge->>LK: Full-Duplex WebRTC Audio Stream (Opus 48kHz)
+    Client->>LK: Full-Duplex WebRTC Audio Stream (Opus 48kHz)
     LK->>Agent: Audio Frame Buffer
     Agent->>Gemini: Bidirectional Audio Websocket (PCM 24kHz)
     Gemini-->>Agent: Native Streaming Audio Response (Hinglish Accent)
     Agent-->>LK: Stream Audio Track
-    LK-->>Judge: Real-Time Hinglish Voice (<780ms Latency, Zero PSTN Cost!)
+    LK-->>Client: Real-Time Hinglish Voice (<780ms Latency, Zero Telephony Cost)
 ```
 
 ### 5.1 Licensed Open-Source Speech Synthesis Architecture
 
 > [!NOTE]
-> - **Hackathon Dev & Demo:** Evaluators interact over WebRTC using **LiveKit + Gemini Live Audio** (Free Tier).
+> - **Interactive Evaluation & Live Testing:** Evaluators interact over WebRTC using **LiveKit + Gemini Live Audio** (Free Tier).
 > - **Licensed Production Deployment:** Built on open-weights licensed models: **Kokoro-82M (Apache 2.0)**, **Piper TTS (MIT)**, and **AI4Bharat Indic Parler-TTS (MIT)** running on self-hosted GPU/CPU spot instances.
 
 ---
