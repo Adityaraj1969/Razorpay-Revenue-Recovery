@@ -139,17 +139,17 @@ razorpay-revenue-recovery/
 
 ## 5. Comprehensive Testing Pyramid
 
-```
-                  ┌──────────────────────┐
-                  │   Chaos & Batch Sim  │ (RevRecover-1000)
-                  │       (15% Effort)   │
-                  ├──────────────────────┤
-                  │   Integration Tests  │ (Razorpay APIs, Webhooks)
-                  │       (35% Effort)   │
-                  ├──────────────────────┤
-                  │      Unit Tests      │ (Rules, Policy, Clamping)
-                  │       (50% Effort)   │
-                  └──────────────────────┘
+```mermaid
+flowchart TD
+    subgraph PYRAMID["Quality Assurance &amp; Testing Pyramid"]
+        direction TB
+        CHAOS["<b>Top Tier: Chaos &amp; Batch Simulation (15%)</b><br/>• RevRecover-1000 Batch Evaluation<br/>• 150 Chaos Scenarios across 6 Stress Domains"]
+        INT["<b>Middle Tier: Integration Tests (35%)</b><br/>• Razorpay Webhook Signatures &amp; Deduplication<br/>• BullMQ Queues, Redis Redlock &amp; SSE Feeds"]
+        UNIT["<b>Foundation Tier: Unit Tests (50%)</b><br/>• Deterministic Policy Gatekeeper<br/>• Concession Sanitizer Floor Clamping<br/>• Per-Case SHA-256 Hash Chaining"]
+        
+        CHAOS --> INT
+        INT --> UNIT
+    end
 ```
 
 ### 5.1 Unit Test Specifications

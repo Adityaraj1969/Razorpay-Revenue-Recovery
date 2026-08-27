@@ -101,6 +101,30 @@ $$\text{Net Incremental Capital} = ₹74,84,940 - (0.1750 \times ₹1,12,05,000)
 $$\text{Batch Compute & Messaging Cost} = \mathbf{₹4,850.00}$$
 $$\text{Net ROI Multiplier} = \frac{\text{Treated Recovered (₹74,84,940)} - \text{Batch Cost (₹4,850)}}{\text{Batch Cost (₹4,850)}} = \mathbf{1,542.2\times}$$
 
+```mermaid
+flowchart LR
+    subgraph INPUT["1. Input Capital at Risk"]
+        CAP["Total Batch at Risk<br/><b>₹1,24,50,000</b> (1,000 Cases)"]
+    end
+
+    subgraph RECOVERY["2. Measured Recovery Inflow"]
+        TREATED["Treated Cohort Recovered (90%)<br/><b>₹74,84,940</b> (66.80% NRR)"]
+        CONTROL["Holdout Control Self-Cure (10%)<br/><b>₹2,17,875</b> (17.50% NCR)"]
+        NET_CAP["Net Incremental Capital<br/><b>+₹55,24,065</b> (+49.30% IRY)"]
+    end
+
+    subgraph EFFICIENCY["3. Economic Multiplier"]
+        COST["Batch Compute &amp; APIs<br/><b>₹4,850.00</b>"]
+        ROI["Net ROI Multiplier<br/><b>1,542.2x Margin</b>"]
+    end
+
+    CAP --> TREATED
+    CAP --> CONTROL
+    TREATED --> NET_CAP
+    NET_CAP --> ROI
+    COST --> ROI
+```
+
 ---
 
 ## 3. Real Physical Execution Benchmarks (N = 1,500 Iterations)
@@ -159,10 +183,10 @@ $ node benchmark_runner.js
 ### 4.2 Treated Cohort Breakdown (N = 900 Cases | ₹1,12,05,000 at Risk)
 
 ```mermaid
-pie title Treated Revenue Recovered (₹74.85 Lakhs Total)
-    "B2B Overdue Invoices (₹43.96L)" : 4395825
-    "Subscription Mandates (₹19.25L)" : 1924740
-    "Checkout Drop-offs (₹11.64L)" : 1164375
+pie title Treated Revenue Recovered by Cohort
+    "B2B Overdue Invoices (58.7%)" : 4395825
+    "Subscription Mandates (25.7%)" : 1924740
+    "Checkout Drop-offs (15.6%)" : 1164375
 ```
 
 #### Cohort 1: E-Commerce Checkout Drop-offs & Gateway Latency

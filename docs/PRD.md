@@ -11,6 +11,35 @@
 
 RevLoop AI is an autonomous, closed-loop revenue recovery agent for Razorpay merchants. It detects revenue at risk across checkout, subscription, and B2B invoicing surfaces; classifies the root cause; proposes a bounded intervention through an LLM; and executes that intervention only after a deterministic, non-LLM policy gate authorizes it. Recovery is never claimed on the basis of a sent message — only on a verified Razorpay settlement webhook. The system's central invariant, stated identically across every document in this set, is: **the LLM proposes, the code disposes.**
 
+```mermaid
+flowchart LR
+    subgraph INGEST["1. Detect Risk"]
+        RZP_SIG["Razorpay Webhook<br/>&amp; Passive Sentinel"]
+    end
+
+    subgraph DIAGNOSE["2. Classify Cause"]
+        DUAL_DGN["V8 Rule Fast-Match<br/>+ LLM Fallback (DGN-01..12)"]
+    end
+
+    subgraph GOVERN["3. Gate Policy"]
+        POLICY_GATE["Deterministic Policy Gate<br/>+ Hard Stops (A1..A11)"]
+    end
+
+    subgraph EXECUTE["4. Execute Action"]
+        MESH["Multi-Channel Mesh<br/>(WhatsApp, Voice, Retrier)"]
+    end
+
+    subgraph VERIFY["5. Verify &amp; Ledger"]
+        SETTLE["Authoritative Settlement<br/>+ Per-Case Hash Ledger"]
+    end
+
+    RZP_SIG --> DUAL_DGN
+    DUAL_DGN --> POLICY_GATE
+    POLICY_GATE --> MESH
+    MESH --> SETTLE
+    SETTLE -.->|Closed-Loop Verification| INGEST
+```
+
 ## 2. Problem Statement
 
 The track brief this project answers states its bar plainly:

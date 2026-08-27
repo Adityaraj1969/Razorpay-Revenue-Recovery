@@ -18,18 +18,20 @@ The interface exists to answer five critical executive and operational questions
 4. **What action is permitted, and why?** (Deterministic policy rule authorization `A1..A11`)
 5. **Did the action actually recover money?** (Authoritative Razorpay payment verification)
 
-```
-       ┌─────────────────────────────────────────────────────────────┐
-       │              REVLOOP DUAL-SURFACE UX TOPOLOGY               │
-       └──────────────────────────────┬──────────────────────────────┘
-                                      │
-     ┌────────────────────────────────┴────────────────────────────────┐
-     ▼                                                                 ▼
-[Surface A: Merchant Control Plane]                 [Surface B: Payer 1-Click Flow]
-• Executive Revenue Radar (Live SSE)                • Interactive WhatsApp UI
-• Opportunities & Case Pipeline                     • UPI Intent Instant Recovery Link
-• HITL Dispute & High-Value Desk                    • LiveKit In-Browser WebRTC Voice
-• Per-Case Cryptographic Ledger Explorer            • Transparent PTP Commitment Card
+```mermaid
+flowchart TD
+    CORE["<b>RevLoop Dual-Surface UX Architecture</b>"] --> SURFACE_A["<b>Surface A: Merchant Control Plane</b><br/>(Next.js 15 App Router + Tailwind)"]
+    CORE --> SURFACE_B["<b>Surface B: Payer Multi-Channel Experience</b><br/>(Frictionless Zero-Latency Recovery)"]
+
+    SURFACE_A --> A1["Executive Revenue Radar (Live SSE Stream)"]
+    SURFACE_A --> A2["Opportunities &amp; Case Pipeline Filter"]
+    SURFACE_A --> A3["Human Console (Disputes &amp; High-Value Gating)"]
+    SURFACE_A --> A4["Audit Log &amp; Cryptographic SHA-256 Explorer"]
+
+    SURFACE_B --> B1["WhatsApp 1-Click UPI Intent Dynamic Link"]
+    SURFACE_B --> B2["LiveKit In-Browser WebRTC Voice Interaction"]
+    SURFACE_B --> B3["Razorpay Smart Collect Virtual Account Card"]
+    SURFACE_B --> B4["Explicit Stopping &amp; Opt-Out Safeguards"]
 ```
 
 ---

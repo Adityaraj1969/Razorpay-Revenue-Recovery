@@ -14,19 +14,32 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
 2. **Involuntary Subscription & Mandate Churn** (Smart Retrier + UPI AutoPay Non-Peak Sequencer).
 3. **B2B Receivables & Invoicing** (In-Browser LiveKit Voice Agent + Promise-to-Pay Tracker + Smart Collect).
 
-```
-       ┌─────────────────────────────────────────────────────────────┐
-       │             5-PHASE SPRINT ROADMAP TOPOLOGY                 │
-       └──────────────────────────────┬──────────────────────────────┘
-                                      │
-     ┌──────────────────┬─────────────┴──────┬──────────────────┐
-     ▼                  ▼                    ▼                  ▼
-[Phase 1: Ingestion] [Phase 2: Diagnosis] [Phase 3: Intervene] [Phase 4: Guard]
-     │                  │                    │                  │
-     └──────────────────┴─────────────┬──────┴──────────────────┘
-                                      │
-                                      ▼
-                         [Phase 5: Evaluate & Demo]
+```mermaid
+flowchart TB
+    subgraph PHASE1["Phase 1: Ingestion &amp; Event Spine"]
+        P1["• Razorpay Webhooks (HMAC-SHA256)<br/>• Passive Bank Health Sentinel<br/>• Event Deduplication (Redis SETNX)"]
+    end
+
+    subgraph PHASE2["Phase 2: Diagnostic &amp; Policy Core"]
+        P2["• Two-Stage Diagnostic Engine (DGN-01..12)<br/>• 78% Deterministic Rule Bypass<br/>• Pure Policy Gate (Zero LLM Authorization)"]
+    end
+
+    subgraph PHASE3["Phase 3: Execution Mesh (A1..A11)"]
+        P3["• Smart Mandate Retrier (NPCI Windows)<br/>• WhatsApp 1-Click Dynamic Links<br/>• LiveKit Hinglish WebRTC Voice Agent"]
+    end
+
+    subgraph PHASE4["Phase 4: Governance &amp; Stopping"]
+        P4["• Hard-Stop on Settlement (&lt;100ms)<br/>• TRAI / RBI Fair Practices Compliance<br/>• Cryptographic SHA-256 Audit Ledger"]
+    end
+
+    subgraph PHASE5["Phase 5: Evaluation &amp; Radar UI"]
+        P5["• RevRecover-1000 Batch Simulation<br/>• Next.js 15 Recovery Radar (SSE)<br/>• Human Console &amp; Demonstration"]
+    end
+
+    PHASE1 --> PHASE2
+    PHASE2 --> PHASE3
+    PHASE3 --> PHASE4
+    PHASE4 --> PHASE5
 ```
 
 ---

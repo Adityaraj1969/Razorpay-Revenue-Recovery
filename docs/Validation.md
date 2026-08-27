@@ -15,15 +15,17 @@ Validation of an autonomous revenue recovery agent requires proving that the sys
 - **Testbed Platform:** Local Docker cluster on Apple M-series / AMD Ryzen 9, Node.js 22 V8 runtime, Redis 7.4-alpine, PostgreSQL 16.
 - **Test Suite Execution:** Benchmarked via [`benchmark_runner.js`](../benchmark_runner.js) across $N = 1,500$ real physical iterations measuring CPU register, memory, and cryptographic timing via `process.hrtime.bigint()`.
 
-```
-       ┌─────────────────────────────────────────────────────────────┐
-       │             REVLOOP SYSTEM VALIDATION SURFACE               │
-       └──────────────────────────────┬──────────────────────────────┘
-                                      │
-     ┌──────────────────┬─────────────┴──────┬──────────────────┐
-     ▼                  ▼                    ▼                  ▼
-[150 Chaos Scenarios] [Adversarial Injections] [Statutory Audits] [Concurrency Locks]
- 6 Distinct Domains   Floor Clamping (<=5%)    100% TRAI/RBI Safe  Redlock Idempotency
+```mermaid
+flowchart TD
+    SURFACE["<b>RevLoop System Validation Surface</b>"] --> D1["150 Chaos Scenarios<br/>(6 Distinct Domains)"]
+    SURFACE --> D2["Adversarial Injections<br/>(Floor Clamping &le; 5%)"]
+    SURFACE --> D3["Statutory Audits<br/>(100% TRAI/RBI Adherence)"]
+    SURFACE --> D4["Concurrency Mutexes<br/>(Redlock &amp; SETNX Idempotency)"]
+
+    D1 --> HARNESS["<b>Automated Test Harnesses</b><br/>• Vitest Unit &amp; Integration Suites<br/>• N = 1,500 Micro-Benchmark Runner"]
+    D2 --> HARNESS
+    D3 --> HARNESS
+    D4 --> HARNESS
 ```
 
 ---
