@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL 16 (Event-Sourced Ledger & Projections)
+  postgres:
+    image: postgres:16-alpine
+    container_name: revloop-postgres
+    environment:
+      POSTGRES_DB: revloop_db
+      POSTGRES_USER: revloop_user
+      POSTGRES_PASSWORD: revloop_local_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U revloop_user -d revloop_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Redis 7.4 (BullMQ Event Queue & Concurrency Redlock)
+  redis:
+    image: redis:7.4-alpine
+    container_name: revloop-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 3. LiveKit Open-Source WebRTC Audio Server (Free Voice Bridge)
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: revloop-livekit
+    command: --dev
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+
+  # 4. Fastify Core API & Orchestration Engine
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: revloop-api
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://revloop_user:revloop_local_pass@postgres:5432/revloop_db"
+      REDIS_URL: "redis://redis:6379"
+      GEMINI_API_KEY: "${GEMINI_API_KEY}"
+      GROQ_API_KEY: "${GROQ_API_KEY}"
+      RAZORPAY_KEY_ID: "${RAZORPAY_KEY_ID}"
+      RAZORPAY_KEY_SECRET: "${RAZORPAY_KEY_SECRET}"
+      WHATSAPP_ACCESS_TOKEN: "${WHATSAPP_ACCESS_TOKEN}"
+      WHATSAPP_PHONE_NUMBER_ID: "${WHATSAPP_PHONE_NUMBER_ID}"
+      LIVEKIT_URL: "ws://livekit:7880"
+      LIVEKIT_API_KEY: "${LIVEKIT_API_KEY}"
+      LIVEKIT_API_SECRET: "${LIVEKIT_API_SECRET}"
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:

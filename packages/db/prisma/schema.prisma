@@ -1,0 +1,232 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Razorpay entity types
+enum EntityType {
+  PAYMENT
+  ORDER
+  SUBSCRIPTION
+  INVOICE
+  VIRTUAL_ACCOUNT
+}
+
+/// Case lifecycle status
+enum CaseStatus {
+  OPEN
+  DIAGNOSING
+  AWAITING_POLICY
+  ACTION_TAKEN
+  PTP_LOCKED
+  COOLDOWN
+  ESCALATED_HUMAN
+  RECOVERED
+  SUPPRESSED
+  CLOSED_UNRECOVERED
+}
+
+/// Root cause diagnosis codes (DGN-01 to DGN-12)
+enum DiagnosisCode {
+  DGN_01_INSUFFICIENT_FUNDS
+  DGN_02_CARD_EXPIRED_OR_BLOCKED
+  DGN_03_ISSUER_DECLINED_GENERIC
+  DGN_04_AUTHENTICATION_ABANDONED
+  DGN_05_TECHNICAL_GATEWAY_TIMEOUT
+  DGN_06_MANDATE_LAPSED_OR_REVOKED
+  DGN_07_CHECKOUT_ABANDONED_PRE_PAYMENT
+  DGN_08_INVOICE_OVERDUE_NO_RESPONSE
+  DGN_09_INVOICE_OVERDUE_DISPUTED
+  DGN_10_VIRTUAL_ACCOUNT_UNDERPAID
+  DGN_11_PTP_FOLLOWUP_DUE
+  DGN_12_UNKNOWN_LOW_CONFIDENCE
+}
+
+/// Bounded action catalog (A1 to A11)
+enum ActionCode {
+  A1_RETRY_PAYMENT_SAME_METHOD
+  A2_SEND_ALTERNATE_METHOD_LINK
+  A3_SEND_REMINDER_SOFT
+  A4_SEND_REMINDER_WITH_LINK
+  A5_OFFER_BOUNDED_INCENTIVE
+  A6_SCHEDULE_MANDATE_RECHECK
+  A7_REQUEST_CARD_UPDATE
+  A8_B2B_DUNNING_STEP
+  A9_CAPTURE_PROMISE_TO_PAY
+  A10_ESCALATE_TO_HUMAN
+  A11_SUPPRESS_AND_CLOSE
+}
+
+/// Execution channel type
+enum ChannelType {
+  VOICE
+  WHATSAPP
+  RETRY
+  EMAIL
+}
+
+/// Promise-to-Pay status
+enum PTPStatus {
+  PENDING
+  KEPT
+  BROKEN
+}
+
+/// Merchant configuration
+model Merchant {
+  id              String   @id @default(uuid())
+  rzpMerchantId   String   @unique @map("rzp_merchant_id")
+  businessName    String   @map("business_name")
+  webhookSecret   String   @map("webhook_secret")
+  configGuardrails Json    @default("{}") @map("config_guardrails")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  
+  cases           Case[]
+  customers       Customer[]
+  
+  @@map("merchants")
+}
+
+/// Customer record with pseudonymized PII
+model Customer {
+  id              String   @id @default(uuid())
+  merchantId      String   @map("merchant_id")
+  phoneHash       String   @map("phone_hash")
+  emailHash       String   @map("email_hash")
+  pseudonymizedRef String  @map("pseudonymized_ref")
+  isOptedOut      Boolean  @default(false) @map("is_opted_out")
+  rfmScore        Float    @default(0) @map("rfm_score")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  
+  merchant        Merchant @relation(fields: [merchantId], references: [id])
+  cases           Case[]
+  
+  @@map("customers")
+}
+
+/// Recovery case projection table
+model Case {
+  caseId              String        @id @default(uuid()) @map("case_id")
+  merchantId          String        @map("merchant_id")
+  customerId          String        @map("customer_id")
+  entityType          EntityType    @map("entity_type")
+  rzpEntityId         String        @map("rzp_entity_id")
+  amountAtRiskPaise   BigInt        @map("amount_at_risk_paise")
+  amountRecoveredPaise BigInt       @default(0) @map("amount_recovered_paise")
+  currentStatus       CaseStatus    @default(OPEN) @map("current_status")
+  rootCauseCategory   DiagnosisCode? @map("root_cause_category")
+  policyAction        ActionCode?   @map("policy_action")
+  attemptCount        Int           @default(0) @map("attempt_count")
+  voiceAttemptCount   Int           @default(0) @map("voice_attempt_count")
+  whatsappAttemptCount Int          @default(0) @map("whatsapp_attempt_count")
+  emailAttemptCount   Int           @default(0) @map("email_attempt_count")
+  mandateRetryCount   Int           @default(0) @map("mandate_retry_count")
+  isHoldoutControl    Boolean       @default(false) @map("is_holdout_control")
+  nextActionAt        DateTime?     @map("next_action_at")
+  resolvedAt          DateTime?     @map("resolved_at")
+  createdAt           DateTime      @default(now()) @map("created_at")
+  updatedAt           DateTime      @updatedAt @map("updated_at")
+  
+  merchant            Merchant      @relation(fields: [merchantId], references: [id])
+  customer            Customer      @relation(fields: [customerId], references: [id])
+  events              CaseEvent[]
+  recoveryAttempts    RecoveryAttempt[]
+  promiseToPay        PromiseToPay[]
+  diagnoses           Diagnosis[]
+  
+  // Unique constraint: one active case per entity
+  @@unique([merchantId, rzpEntityId], name: "idx_uniq_active_case")
+  @@map("cases")
+}
+
+/// Immutable event-sourced audit log with per-case monotonic sequence
+model CaseEvent {
+  globalEventId      String   @id @default(uuid()) @map("global_event_id")
+  caseId             String   @map("case_id")
+  sequenceNumber     Int      @map("sequence_number")
+  eventType          String   @map("event_type")
+  actor              String
+  payload            Json
+  previousRecordHash String   @map("previous_record_hash")
+  currentRecordHash  String   @map("current_record_hash")
+  occurredAt         DateTime @default(now()) @map("occurred_at")
+  
+  case               Case     @relation(fields: [caseId], references: [caseId], onDelete: Cascade)
+  
+  @@unique([caseId, sequenceNumber], name: "uniq_case_seq")
+  @@index([caseId, sequenceNumber])
+  @@index([occurredAt(sort: Desc)])
+  @@map("case_events")
+}
+
+/// Diagnosis records for a case
+model Diagnosis {
+  id                String        @id @default(uuid())
+  caseId            String        @map("case_id")
+  diagnosisCode     DiagnosisCode @map("diagnosis_code")
+  confidenceScore   Float         @map("confidence_score")
+  resolvedBy        String        @map("resolved_by") // 'RULE' or 'LLM'
+  reasoningSummary  String?       @map("reasoning_summary")
+  rawLlmResponse    Json?         @map("raw_llm_response")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  
+  case              Case          @relation(fields: [caseId], references: [caseId])
+  
+  @@map("diagnoses")
+}
+
+/// Recovery attempt records
+model RecoveryAttempt {
+  attemptId          String       @id @default(uuid()) @map("attempt_id")
+  caseId             String       @map("case_id")
+  attemptNumber      Int          @map("attempt_number")
+  channel            ChannelType
+  actionCode         ActionCode   @map("action_code")
+  deliveryStatus     String       @map("delivery_status")
+  payloadSent        Json?        @map("payload_sent")
+  customerResponse   Json?        @map("customer_response")
+  responseIntent     String?      @map("response_intent")
+  costIncurredPaise  BigInt       @default(0) @map("cost_incurred_paise")
+  dispatchedAt       DateTime     @default(now()) @map("dispatched_at")
+  
+  case               Case         @relation(fields: [caseId], references: [caseId])
+  ruleEvaluations    RuleEvaluation[]
+  
+  @@map("recovery_attempts")
+}
+
+/// Rule evaluation records for audit trail
+model RuleEvaluation {
+  id                String          @id @default(uuid())
+  attemptId         String          @map("attempt_id")
+  ruleName          String          @map("rule_name")
+  passed            Boolean
+  evidence          Json?
+  evaluatedAt       DateTime        @default(now()) @map("evaluated_at")
+  
+  attempt           RecoveryAttempt @relation(fields: [attemptId], references: [attemptId])
+  
+  @@map("rule_evaluations")
+}
+
+/// Promise-to-Pay commitments
+model PromiseToPay {
+  ptpId              String    @id @default(uuid()) @map("ptp_id")
+  caseId             String    @map("case_id")
+  promisedTimestamp   DateTime  @map("promised_timestamp")
+  promisedAmountPaise BigInt    @map("promised_amount_paise")
+  promisedMethod      String?   @map("promised_method")
+  status             PTPStatus  @default(PENDING)
+  fulfilledAt        DateTime?  @map("fulfilled_at")
+  createdAt          DateTime   @default(now()) @map("created_at")
+  
+  case               Case       @relation(fields: [caseId], references: [caseId])
+  
+  @@map("promise_to_pay")
+}

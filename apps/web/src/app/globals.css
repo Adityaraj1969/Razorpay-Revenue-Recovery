@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --color-brand-primary: #0C2340;
+  --color-recovery-success: #059669;
+  --color-risk-alert: #DC2626;
+  --color-ptp-amber: #D97706;
+  --color-surface-bg: #F8FAFC;
+}
+
+body {
+  background-color: var(--color-surface-bg);
+  color: #1e293b;
+}
+
+.text-brand-primary {
+  color: var(--color-brand-primary);
+}
+.bg-brand-primary {
+  background-color: var(--color-brand-primary);
+}
+.text-recovery-success {
+  color: var(--color-recovery-success);
+}
+.text-risk-alert {
+  color: var(--color-risk-alert);
+}
+.text-ptp-amber {
+  color: var(--color-ptp-amber);
+}

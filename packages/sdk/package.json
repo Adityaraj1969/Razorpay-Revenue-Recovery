@@ -1,0 +1,18 @@
+{
+  "name": "@revloop/sdk",
+  "version": "2.4.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "razorpay": "^2.9.0",
+    "@revloop/shared-types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

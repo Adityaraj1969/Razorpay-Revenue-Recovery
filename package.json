@@ -1,0 +1,41 @@
+{
+  "name": "revloop-ai",
+  "version": "2.4.0",
+  "private": true,
+  "description": "RevLoop AI: Autonomous Closed-Loop Revenue Recovery Engine — Razorpay Buildathon 2026",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm -r --parallel dev",
+    "dev:api": "pnpm --filter @revloop/api dev",
+    "dev:web": "pnpm --filter @revloop/web dev",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "test:unit": "pnpm --filter @revloop/api test:unit",
+    "test:integration": "pnpm --filter @revloop/api test:integration",
+    "test:chaos": "pnpm --filter @revloop/api test:chaos",
+    "test:validation": "jest --config jest.validation.config.js --runInBand",
+    "verify:audit-ledger": "pnpm --filter @revloop/api verify:audit-ledger",
+    "db:migrate": "pnpm --filter @revloop/db migrate",
+    "db:generate": "pnpm --filter @revloop/db generate",
+    "db:seed": "pnpm --filter @revloop/db seed",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "clean": "pnpm -r clean"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.9"
+  }
+}
