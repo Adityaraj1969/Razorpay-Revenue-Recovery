@@ -86,37 +86,31 @@ RevLoop AI introduces the **Randomized Held-Out Control Group (10%)**:
 ## 2. Mathematical Evaluation Formulations
 
 ### 2.1 Net Recovery Rate (Treated Cohort)
-$$\text{NRR}_{\text{Treated}} = \left( \frac{\sum_{i=1}^{N_{\text{treated}}} \text{RecoveredAmount}_i}{\sum_{i=1}^{N_{\text{treated}}} \text{AmountAtRisk}_i} \right) \times 100 = \frac{₹74,84,940}{₹1,12,05,000} \times 100 = \mathbf{66.80\%}$$
+$$\text{NRR}_{\text{Treated}} = \left( \frac{\sum_{i=1}^{N_{\text{treated}}} \text{RecoveredAmount}_i}{\sum_{i=1}^{N_{\text{treated}}} \text{AmountAtRisk}_i} \right) \times 100 = \frac{\text{₹74,84,940}}{\text{₹1,12,05,000}} \times 100 = \mathbf{66.80\%}$$
 
 ### 2.2 Natural Cure Rate (Holdout Control Cohort)
-$$\text{NCR}_{\text{Control}} = \left( \frac{\sum_{j=1}^{N_{\text{control}}} \text{SelfCuredAmount}_j}{\sum_{j=1}^{N_{\text{control}}} \text{AmountAtRisk}_j} \right) \times 100 = \frac{₹2,17,875}{₹12,45,000} \times 100 = \mathbf{17.50\%}$$
+$$\text{NCR}_{\text{Control}} = \left( \frac{\sum_{j=1}^{N_{\text{control}}} \text{SelfCuredAmount}_j}{\sum_{j=1}^{N_{\text{control}}} \text{AmountAtRisk}_j} \right) \times 100 = \frac{\text{₹2,17,875}}{\text{₹12,45,000}} \times 100 = \mathbf{17.50\%}$$
 
 ### 2.3 Incremental Recovery Yield (IRY) & Net Incremental Capital
 $$\text{IRY} = \text{NRR}_{\text{Treated}} - \text{NCR}_{\text{Control}} = 66.80\% - 17.50\% = \mathbf{+49.30\%}$$
 
 $$\text{Net Incremental Capital} = \text{Treated Recovered} - \left(\text{NCR}_{\text{Control}} \times \text{Treated at Risk}\right)$$
-$$\text{Net Incremental Capital} = ₹74,84,940 - (0.1750 \times ₹1,12,05,000) = ₹74,84,940 - ₹19,60,875 = \mathbf{₹55,24,065}$$
+$$\text{Net Incremental Capital} = \text{₹74,84,940} - (0.1750 \times \text{₹1,12,05,000}) = \text{₹74,84,940} - \text{₹19,60,875} = \mathbf{₹55,24,065}$$
 
 ### 2.4 Validated Batch Compute Cost & Net ROI Multiplier
-$$\text{Batch Compute & Messaging Cost} = \mathbf{₹4,850.00}$$
+$$\text{Batch Compute and Messaging Cost} = \mathbf{\text{₹4,850.00}}$$
 $$\text{Net ROI Multiplier} = \frac{\text{Treated Recovered (₹74,84,940)} - \text{Batch Cost (₹4,850)}}{\text{Batch Cost (₹4,850)}} = \mathbf{1,542.2\times}$$
 
 ```mermaid
 flowchart LR
-    subgraph INPUT["1. Input Capital at Risk"]
-        CAP["Total Batch at Risk<br/><b>₹1,24,50,000</b> (1,000 Cases)"]
-    end
-
-    subgraph RECOVERY["2. Measured Recovery Inflow"]
-        TREATED["Treated Cohort Recovered (90%)<br/><b>₹74,84,940</b> (66.80% NRR)"]
-        CONTROL["Holdout Control Self-Cure (10%)<br/><b>₹2,17,875</b> (17.50% NCR)"]
-        NET_CAP["Net Incremental Capital<br/><b>+₹55,24,065</b> (+49.30% IRY)"]
-    end
-
-    subgraph EFFICIENCY["3. Economic Multiplier"]
-        COST["Batch Compute &amp; APIs<br/><b>₹4,850.00</b>"]
-        ROI["Net ROI Multiplier<br/><b>1,542.2x Margin</b>"]
-    end
+    CAP["<b>1. Total Capital at Risk</b><br/>₹1,24,50,000 (1,000 Cases)"]
+    
+    TREATED["<b>2. Treated Cohort Recovered (90%)</b><br/>₹74,84,940 (66.80% NRR)"]
+    CONTROL["<b>Holdout Control Self-Cure (10%)</b><br/>₹2,17,875 (17.50% NCR)"]
+    NET_CAP["<b>Net Incremental Capital</b><br/>+₹55,24,065 (+49.30% IRY)"]
+    
+    COST["<b>3. Batch Compute &amp; Messaging</b><br/>₹4,850.00 Total Cost"]
+    ROI["<b>4. Net ROI Multiplier</b><br/>1,542.2x Net Return"]
 
     CAP --> TREATED
     CAP --> CONTROL
