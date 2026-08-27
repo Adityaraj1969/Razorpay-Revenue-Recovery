@@ -98,19 +98,25 @@ $$\text{Net Incremental Capital} = \text{Treated Recovered} - \left(\text{NCR}_{
 $$\text{Net Incremental Capital} = \text{₹74,84,940} - (0.1750 \times \text{₹1,12,05,000}) = \text{₹74,84,940} - \text{₹19,60,875} = \mathbf{₹55,24,065}$$
 
 ### 2.4 Validated Batch Compute Cost & Net ROI Multiplier
-$$\text{Batch Compute and Messaging Cost} = \mathbf{\text{₹4,850.00}}$$
+$$\text{Batch Compute and Messaging Cost} = \text{₹4,850.00}$$
 $$\text{Net ROI Multiplier} = \frac{\text{Treated Recovered (₹74,84,940)} - \text{Batch Cost (₹4,850)}}{\text{Batch Cost (₹4,850)}} = \mathbf{1,542.2\times}$$
 
 ```mermaid
 flowchart LR
-    CAP["<b>1. Total Capital at Risk</b><br/>₹1,24,50,000 (1,000 Cases)"]
-    
-    TREATED["<b>2. Treated Cohort Recovered (90%)</b><br/>₹74,84,940 (66.80% NRR)"]
-    CONTROL["<b>Holdout Control Self-Cure (10%)</b><br/>₹2,17,875 (17.50% NCR)"]
-    NET_CAP["<b>Net Incremental Capital</b><br/>+₹55,24,065 (+49.30% IRY)"]
-    
-    COST["<b>3. Batch Compute &amp; Messaging</b><br/>₹4,850.00 Total Cost"]
-    ROI["<b>4. Net ROI Multiplier</b><br/>1,542.2x Net Return"]
+    subgraph INPUT["1. Input Capital at Risk"]
+        CAP["Total Batch at Risk<br/><b>₹1,24,50,000</b> (1,000 Cases)"]
+    end
+
+    subgraph RECOVERY["2. Measured Recovery Inflow"]
+        TREATED["Treated Cohort Recovered (90%)<br/><b>₹74,84,940</b> (66.80% NRR)"]
+        CONTROL["Holdout Control Self-Cure (10%)<br/><b>₹2,17,875</b> (17.50% NCR)"]
+        NET_CAP["Net Incremental Capital<br/><b>+₹55,24,065</b> (+49.30% IRY)"]
+    end
+
+    subgraph EFFICIENCY["3. Economic Multiplier"]
+        COST["Batch Compute &amp; APIs<br/><b>₹4,850.00</b>"]
+        ROI["Net ROI Multiplier<br/><b>1,542.2x Margin</b>"]
+    end
 
     CAP --> TREATED
     CAP --> CONTROL
