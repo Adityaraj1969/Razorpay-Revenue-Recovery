@@ -22,20 +22,18 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
      ┌──────────────────┬─────────────┴──────┬──────────────────┐
      ▼                  ▼                    ▼                  ▼
 [Phase 1: Ingestion] [Phase 2: Diagnosis] [Phase 3: Intervene] [Phase 4: Guard]
- Hours 0–24           Hours 24–48          Hours 48–72          Hours 72–96
      │                  │                    │                  │
      └──────────────────┴─────────────┬──────┴──────────────────┘
                                       │
                                       ▼
-                        [Phase 5: Evaluate & Demo]
-                              Hours 96–120
+                         [Phase 5: Evaluate & Demo]
 ```
 
 ---
 
 ## 2. Phase Breakdown & Deliverables
 
-### Phase 1: Ingestion, Telemetry & Event-Sourced Spine (Hours 0–24)
+### Phase 1: Ingestion, Telemetry & Event-Sourced Spine
 - **Objective:** Establish the real-time event pipeline, Razorpay webhook ingestors, passive bank telemetry feeds, and PostgreSQL/Redis state management.
 - **Key Deliverables:**
   - `POST /api/v1/webhooks/razorpay` with sub-100ms HMAC-SHA256 verification.
@@ -47,7 +45,7 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
 
 ---
 
-### Phase 2: Diagnostic Reasoning & Pure Policy Engine (Hours 24–48)
+### Phase 2: Diagnostic Reasoning & Pure Policy Engine
 - **Objective:** Implement root-cause classification (`DGN-01`..`DGN-12`), rule-first bypass, micro-batching, and the deterministic policy engine.
 - **Key Deliverables:**
   - Two-stage diagnostic classifier (Rule-based mapping for 78% of cases in $<5\text{ms}$, Gemini 2.5 Flash / Groq fallback for ambiguous cases).
@@ -58,7 +56,7 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
 
 ---
 
-### Phase 3: Bounded Multi-Channel Execution Mesh (Hours 48–72)
+### Phase 3: Bounded Multi-Channel Execution Mesh
 - **Objective:** Build and connect the bounded execution channels directly with Razorpay APIs and open-source voice bridge.
 - **Key Deliverables:**
   - **Smart Mandate Retrier:** Subscriptions API integration with NPCI non-peak clearing window optimizer.
@@ -69,7 +67,7 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
 
 ---
 
-### Phase 4: Governance, Stopping Rules & Reconciliation (Hours 72–96)
+### Phase 4: Governance, Stopping Rules & Reconciliation
 - **Objective:** Implement hard-coded regulatory guardrails, stopping rules, and closed-loop reconciliation.
 - **Key Deliverables:**
   - **Governance Interceptor:** Hard-stop on `payment.authorized` in $<100\text{ ms}$ (64ms in-flight cancellation, 85ms WebRTC drop).
@@ -80,13 +78,13 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
 
 ---
 
-### Phase 5: Batch Benchmarking, Cockpit UI & Demo (Hours 96–120)
+### Phase 5: Batch Benchmarking, Cockpit UI & Demo
 - **Objective:** Build the merchant radar UI, run full batch recovery simulations, and record demo pitch.
 - **Key Deliverables:**
   - **Merchant Recovery Radar (Next.js 15):** Real-time dashboard with Server-Sent Events showing live recovered GMV, active voice calls, and PTP timeline.
   - **Batch Evaluation Engine:** Process the **RevRecover-1000** benchmark batch, isolating Incremental Recovery Yield (+49.30% IRY) against a 10% held-out control group.
   - **Demo Walkthrough Video & Pitch Deck:** 3-minute hackathon pitch with live interactive Hinglish voice recovery demo.
-- **Exit Gate:** Working, production-grade repository with comprehensive test suite, interactive UI, and live demonstration.
+  - **Exit Gate:** Working, production-grade repository with comprehensive test suite, interactive UI, and live demonstration.
 
 ---
 
@@ -101,24 +99,24 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
 
 ---
 
-## 4. Weekend-Compressed 48-Hour Fallback Cut-Line Plan
+## 4. Prioritized Fallback & Cut-Line Execution Plan
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                  48-HOUR COMPRESSED CUT-LINE MATRIX                    │
+│                   PRIORITIZED FEATURE CUT-LINE MATRIX                  │
 ├─────────────────┬──────────────────────────────────────────────────────┤
 │ MUST HAVE (P0)  │ • Razorpay Webhook Ingestion + Deduplication         │
-│ (Hours 0–24)    │ • Rule-based Diagnosis + Deterministic Policy        │
+│ Core Foundation │ • Rule-based Diagnosis + Deterministic Policy        │
 │                 │ • WhatsApp 1-Click UPI Payment Link Dispatch         │
 │                 │ • Sub-100ms Stopping Rule on Settlement              │
 │                 │ • Batch Evaluation (500 cases) + Audit Log           │
 ├─────────────────┼──────────────────────────────────────────────────────┤
 │ SHOULD HAVE (P1)│ • Passive Bank Health Sentinel                       │
-│ (Hours 24–36)   │ • LiveKit WebRTC Voice Agent (In-Browser)            │
-│                 │ • Promise-to-Pay (PTP) State Tracker                 │
+│ High-Impact     │ • LiveKit WebRTC Voice Agent (In-Browser)            │
+│ Interventions   │ • Promise-to-Pay (PTP) State Tracker                 │
 │                 │ • Next.js 15 Recovery Radar Dashboard                │
 ├─────────────────┼──────────────────────────────────────────────────────┤
 │ COULD HAVE (P2) │ • Multi-stage B2B Dunning Ladder                     │
-│ (Hours 36–48)   │ • Cryptographic Per-Case Hash Chain Explorer         │
+│ Extended Polish │ • Cryptographic Per-Case Hash Chain Explorer         │
 └─────────────────┴──────────────────────────────────────────────────────┘
 ```

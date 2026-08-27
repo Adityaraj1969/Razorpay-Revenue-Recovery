@@ -23,40 +23,40 @@ RevLoop AI is built around four non-negotiable architectural invariants:
 ```mermaid
 flowchart TB
     subgraph INGESTION["1. Telemetry & Ingestion Mesh"]
-        WH[Razorpay Webhook Receiver\nHMAC-SHA256 Verified]
-        POLL[Reconciliation Poller\nPeriodic Missed-Signal Backfill]
-        ABAN[Abandonment Watcher\nInferred order.created with no paid]
-        SENTINEL[Passive Bank Health Sentinel\nRolling 50-Event Sliding Window]
+        WH["Razorpay Webhook Receiver<br/>HMAC-SHA256 Verified"]
+        POLL["Reconciliation Poller<br/>Periodic Missed-Signal Backfill"]
+        ABAN["Abandonment Watcher<br/>Inferred order.created with no paid"]
+        SENTINEL["Passive Bank Health Sentinel<br/>Rolling 50-Event Sliding Window"]
     end
 
     subgraph BROKER["2. Distributed Event Bus & Deduplicator"]
-        REDIS_Q[Redis BullMQ Distributed Broker\nToken-Bucket Rate Limiter 14 RPM]
-        DEDUP[Idempotency & Bloom Filter\nSETNX idemp:event:ID 7d TTL]
+        REDIS_Q["Redis BullMQ Distributed Broker<br/>Token-Bucket Rate Limiter 14 RPM"]
+        DEDUP["Idempotency & Bloom Filter<br/>SETNX idemp:event:ID 7d TTL"]
     end
 
     subgraph COGNITIVE["3. Cognitive Diagnostic Core"]
-        DGN_RULE[Deterministic Rule Classifier\nFast Error-Code Mapping DGN-01..07 (78% bypass)]
-        DGN_LLM[Cognitive LLM Micro-Batcher\nGemini 2.5 Flash / Groq (DGN-08..12)]
+        DGN_RULE["Deterministic Rule Classifier<br/>Fast Error-Code Mapping DGN-01..07 (78% bypass)"]
+        DGN_LLM["Cognitive LLM Micro-Batcher<br/>Gemini 2.5 Flash / Groq (DGN-08..12)"]
     end
 
     subgraph GOVERNANCE["4. Deterministic Policy & Stopping Engine"]
-        POLICY[Deterministic Policy Gate\n(Case, Diagnosis, Config) -> Action]
-        GUARD[Regulatory & Stopping Guard\nTRAI Hours, NPCI Mandate Windows, Concession Floor]
-        LOCK[Distributed Concurrency Mutex\nRedlock lock:recovery:case_id]
+        POLICY["Deterministic Policy Gate<br/>(Case, Diagnosis, Config) -> Action"]
+        GUARD["Regulatory & Stopping Guard<br/>TRAI Hours, NPCI Mandate Windows, Concession Floor"]
+        LOCK["Distributed Concurrency Mutex<br/>Redlock lock:recovery:case_id"]
     end
 
     subgraph EXECUTION["5. Bounded Multi-Channel Mesh (A1..A11)"]
-        RETRY[A1/A6: Smart Mandate Retrier\nRazorpay Subscriptions API]
-        WA[A2/A4/A5: WhatsApp 1-Click Bot\nMeta Cloud API Sandbox + Mock Adapter]
-        VOICE[A9: In-Browser Hinglish Voice Agent\nLiveKit WebRTC + Gemini Live Audio / Kokoro]
-        DUNNING[A8: B2B Staged Dunning Engine\nRazorpay Invoices + Smart Collect]
+        RETRY["A1/A6: Smart Mandate Retrier<br/>Razorpay Subscriptions API"]
+        WA["A2/A4/A5: WhatsApp 1-Click Bot<br/>Meta Cloud API Sandbox + Mock Adapter"]
+        VOICE["A9: In-Browser Hinglish Voice Agent<br/>LiveKit WebRTC + Gemini Live Audio / Kokoro"]
+        DUNNING["A8: B2B Staged Dunning Engine<br/>Razorpay Invoices + Smart Collect"]
     end
 
     subgraph VERIFICATION["6. Verification, Ledger & Operator Console"]
-        VERIFY[Authoritative Verification Service\nRazorpay Payment & Virtual Account Sync]
-        AUDIT[Per-Case Hash Ledger + Merkle Root\ncase_events (SHA-256 Chained)]
-        DASH[Merchant Operations Radar\nNext.js 15 + Server-Sent Events]
-        HUMAN[Human Console Desk\nHITL Review for DGN-09/12 & High Value]
+        VERIFY["Authoritative Verification Service<br/>Razorpay Payment & Virtual Account Sync"]
+        AUDIT["Per-Case Hash Ledger + Merkle Root<br/>case_events (SHA-256 Chained)"]
+        DASH["Merchant Operations Radar<br/>Next.js 15 + Server-Sent Events"]
+        HUMAN["Human Console Desk<br/>HITL Review for DGN-09/12 & High Value"]
     end
 
     WH --> DEDUP
@@ -66,12 +66,12 @@ flowchart TB
     DEDUP --> REDIS_Q
 
     REDIS_Q --> DGN_RULE
-    DGN_RULE -->|Unresolved / Ambiguous| DGN_LLM
-    DGN_RULE -->|Resolved (78%)| POLICY
+    DGN_RULE -->|Unresolved or Ambiguous| DGN_LLM
+    DGN_RULE -->|Resolved 78%| POLICY
     DGN_LLM --> POLICY
 
     POLICY --> GUARD
-    GUARD -->|Violation / Low Conf| HUMAN
+    GUARD -->|Violation or Low Conf| HUMAN
     GUARD -->|Approved| LOCK
 
     LOCK --> RETRY

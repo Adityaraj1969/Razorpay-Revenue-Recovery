@@ -61,20 +61,20 @@ RevLoop AI transforms revenue recovery from a costly, aggressive headache into a
 ```mermaid
 flowchart LR
     subgraph DEMO1["Demo 1: E-Commerce Checkout"]
-        D1_FAIL[Simulate HDFC UPI Failure] --> D1_WAIT[Passive Telemetry Cooldown]
-        D1_WAIT --> D1_WA[WhatsApp 1-Click UPI Link]
-        D1_WA --> D1_SETTLE[Customer Pays -> Hard Stop in 64ms]
+        D1_FAIL["Simulate HDFC UPI Failure"] --> D1_WAIT["Passive Telemetry Cooldown"]
+        D1_WAIT --> D1_WA["WhatsApp 1-Click UPI Link"]
+        D1_WA --> D1_SETTLE["Customer Pays -> Hard Stop in 64ms"]
     end
 
     subgraph DEMO2["Demo 2: In-Browser Voice Chaser"]
-        D2_INV[Overdue Invoice ₹85,000] --> D2_CALL[LiveKit WebRTC Voice Call]
-        D2_CALL --> D2_PTP[Commitment: 'Parso 11 baje']
-        D2_PTP --> D2_SMART[Smart Collect Virtual Account Locked]
+        D2_INV["Overdue Invoice ₹85,000"] --> D2_CALL["LiveKit WebRTC Voice Call"]
+        D2_CALL --> D2_PTP["Commitment: Parso 11 baje"]
+        D2_PTP --> D2_SMART["Smart Collect Virtual Account Locked"]
     end
 
     subgraph DEMO3["Demo 3: Batch Benchmark"]
-        D3_BATCH[RevRecover-1000 Batch] --> D3_RADAR[Live Radar Dashboard]
-        D3_RADAR --> D3_ROI[₹74.85L Recovered (+49.3% IRY)]
+        D3_BATCH["RevRecover-1000 Batch"] --> D3_RADAR["Live Radar Dashboard"]
+        D3_RADAR --> D3_ROI["₹74.85L Recovered (+49.30% IRY)"]
     end
 ```
 
