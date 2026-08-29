@@ -22,6 +22,7 @@
     "test:validation": "jest --config jest.validation.config.js --runInBand",
     "verify:audit-ledger": "pnpm --filter @revloop/api verify:audit-ledger",
     "db:migrate": "pnpm --filter @revloop/db migrate",
+    "db:push": "pnpm --filter @revloop/db db:push",
     "db:generate": "pnpm --filter @revloop/db generate",
     "db:seed": "pnpm --filter @revloop/db seed",
     "docker:up": "docker compose up -d",
