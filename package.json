@@ -11,6 +11,9 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "build": "pnpm -r build",
+    "build:api": "pnpm --filter @revloop/shared-types build && pnpm --filter @revloop/db generate && pnpm --filter @revloop/db build && pnpm --filter @revloop/api build",
+    "start": "pnpm --filter @revloop/api start",
+    "start:api": "pnpm --filter @revloop/api start",
     "dev": "pnpm -r --parallel dev",
     "dev:api": "pnpm --filter @revloop/api dev",
     "dev:web": "pnpm --filter @revloop/web dev",
