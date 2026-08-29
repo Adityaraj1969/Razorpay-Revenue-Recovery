@@ -54,9 +54,9 @@ export const webhookRouter: FastifyPluginAsync = async (fastify) => {
     const token = query['hub.verify_token'];
     const challenge = query['hub.challenge'];
 
-    const expectedToken = config.WHATSAPP_VERIFY_TOKEN || process.env.WHATSAPP_VERIFY_TOKEN || 'revloop_aibot_secretsecure_2047';
+    const expectedToken = config.WHATSAPP_VERIFY_TOKEN || process.env.WHATSAPP_VERIFY_TOKEN;
 
-    if (mode === 'subscribe' && token === expectedToken) {
+    if (mode === 'subscribe' && expectedToken && token === expectedToken) {
       fastify.log.info('Meta WhatsApp Webhook verified successfully');
       return reply.code(200).send(challenge);
     } else {
