@@ -9,7 +9,7 @@
 import { getIssuerHealth } from '../../infrastructure/bankHealthSentinel.js';
 import type { ExecutionResult } from './executionMesh.js';
 
-export async function retryPayment(rzpPaymentId: string, method: string): Promise<ExecutionResult> {
+export async function retryPayment(_rzpPaymentId: string, _method: string): Promise<ExecutionResult> {
   // In a real implementation, we would use Razorpay SDK here
   // e.g., razorpay.payments.retry(rzpPaymentId)
   

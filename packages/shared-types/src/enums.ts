@@ -72,13 +72,13 @@ export type ActionCode = typeof ActionCode[keyof typeof ActionCode];
  * Channel types
  * Design.md §2
  */
-export const Channel = {
+export const ChannelType = {
   VOICE: 'VOICE',
   WHATSAPP: 'WHATSAPP',
   RETRY: 'RETRY',
   EMAIL: 'EMAIL',
 } as const;
-export type Channel = typeof Channel[keyof typeof Channel];
+export type ChannelType = typeof ChannelType[keyof typeof ChannelType];
 
 /**
  * PTP status

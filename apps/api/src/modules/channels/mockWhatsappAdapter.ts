@@ -12,10 +12,10 @@ import type { ExecutionResult } from './executionMesh.js';
 export async function sendRecoveryMessage(
   phone: string,
   paymentLinkUrl: string,
-  customerName: string,
-  amount: number,
-  orderId: string,
-  reason: string
+  _customerName: string,
+  _amount: number,
+  _orderId: string,
+  _reason: string
 ): Promise<ExecutionResult> {
   console.log(`[MOCK WHATSAPP] Sending recovery to ${phone}: link=${paymentLinkUrl}`);
   
@@ -34,9 +34,9 @@ export async function sendRecoveryMessage(
 
 export async function sendReminderSoft(
   phone: string,
-  customerName: string,
-  amount: number,
-  orderId: string
+  _customerName: string,
+  _amount: number,
+  _orderId: string
 ): Promise<ExecutionResult> {
   console.log(`[MOCK WHATSAPP] Sending soft reminder to ${phone}`);
   await new Promise(res => setTimeout(res, 100 + Math.random() * 400));
@@ -51,7 +51,7 @@ export async function sendReminderSoft(
 
 export async function sendCardUpdateLink(
   phone: string,
-  customerName: string,
+  _customerName: string,
   updateUrl: string
 ): Promise<ExecutionResult> {
   console.log(`[MOCK WHATSAPP] Sending card update to ${phone}`);
@@ -67,9 +67,9 @@ export async function sendCardUpdateLink(
 
 export async function sendPTPConfirmation(
   phone: string,
-  customerName: string,
-  ptpDate: string,
-  virtualAccountDetails: string
+  _customerName: string,
+  _ptpDate: string,
+  _virtualAccountDetails: string
 ): Promise<ExecutionResult> {
   console.log(`[MOCK WHATSAPP] Sending PTP confirmation to ${phone}`);
   await new Promise(res => setTimeout(res, 100 + Math.random() * 400));

@@ -122,6 +122,11 @@ export function determinePolicyAction(
     actionCode = ActionCode.A10_ESCALATE_TO_HUMAN;
   }
 
+  // Touchpoint exhaustion: suppress after max attempts
+  if (attemptCount >= 10) {
+    actionCode = ActionCode.A11_SUPPRESS_AND_CLOSE;
+  }
+
   const isEscalation = actionCode === ActionCode.A10_ESCALATE_TO_HUMAN;
   const isSuppression = actionCode === ActionCode.A11_SUPPRESS_AND_CLOSE;
 

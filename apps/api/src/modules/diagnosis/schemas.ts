@@ -37,4 +37,4 @@ export const LLMClassificationResultSchema = z.object({
 
 export type LLMClassificationResult = z.infer<typeof LLMClassificationResultSchema>;
 
-export type DiagnosticOutput = LLMClassificationResult & { caseId: string };
+export type DiagnosticOutput = (RuleClassificationResult | LLMClassificationResult) & { caseId: string };

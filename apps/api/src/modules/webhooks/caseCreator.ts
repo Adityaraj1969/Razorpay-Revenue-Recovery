@@ -16,35 +16,50 @@ export async function createOrLinkCase(payload: any, merchantId: string) {
 
   const amountAtRiskPaise = BigInt(entity.amount);
   const rzpEntityId = entity.id;
-  const isHoldout = Math.random() < 0.10;
+  const isHoldoutControl = Math.random() < 0.10;
 
   // customer creation if provided
-  let customerId = undefined;
+  let customerId: string | undefined = undefined;
   if (entity.contact || entity.email) {
-    const customer = await prisma.customer.upsert({
-      where: { emailHash: entity.email ? hashPII(entity.email) : '' },
-      update: {},
-      create: {
-        emailHash: entity.email ? hashPII(entity.email) : '',
-        phoneHash: entity.contact ? hashPII(entity.contact) : '',
-        merchantId,
-      }
+    const emailHash = entity.email ? hashPII(entity.email) : '';
+    const phoneHash = entity.contact ? hashPII(entity.contact) : '';
+    
+    let customer = await prisma.customer.findFirst({
+      where: { emailHash, merchantId }
     });
+
+    if (!customer) {
+      customer = await prisma.customer.create({
+        data: {
+          emailHash,
+          phoneHash,
+          merchantId,
+          pseudonymizedRef: crypto.randomUUID()
+        }
+      });
+    }
     customerId = customer.id;
   }
 
-  const caseRecord = await prisma.recoveryCase.upsert({
-    where: { rzpEntityId },
-    update: {},
-    create: {
-      rzpEntityId,
-      merchantId,
-      amountAtRisk: amountAtRiskPaise,
-      isHoldout,
-      customerId,
-      status: 'OPEN'
-    }
+  const entityType = payload.payload?.payment ? 'PAYMENT' : 'ORDER';
+
+  let caseRecord = await prisma.case.findFirst({
+    where: { rzpEntityId, merchantId }
   });
+
+  if (!caseRecord) {
+    caseRecord = await prisma.case.create({
+      data: {
+        rzpEntityId,
+        merchantId,
+        entityType,
+        amountAtRiskPaise,
+        isHoldoutControl,
+        customerId: customerId!,
+        currentStatus: 'OPEN'
+      }
+    });
+  }
 
   return caseRecord;
 }

@@ -1,9 +1,9 @@
 import { redisClient } from './redis.js';
 
 const WINDOW_SIZE_MS = 300 * 1000; // 5 minutes
-const MAX_EVENTS = 50;
+const _MAX_EVENTS = 50;
 const BANK_DEGRADATION_THRESHOLD = 0.30;
-const BANK_RECOVERY_THRESHOLD = 0.90; // (1 - 0.90) == 0.10 failure rate
+const _BANK_RECOVERY_THRESHOLD = 0.90; // (1 - 0.90) == 0.10 failure rate
 
 /**
  * Passive Bank Health Sentinel

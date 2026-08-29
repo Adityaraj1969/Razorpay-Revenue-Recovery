@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { 
   PersonalizationTone, 
-  Channel, 
+  ChannelType, 
   StoppingRule, 
   CaseStatus 
 } from './enums.js';
@@ -54,7 +54,7 @@ export const PTPCommitmentSchema = z.object({
   promised_timestamp: z.string().datetime(),
   promised_amount_paise: z.number(), // bigint in DB, but TS handles as number in schema or z.bigint() if required, using number for zod parsing ease unless bigints are strict
   promised_method: z.string(),
-  channel: z.nativeEnum(Channel),
+  channel: z.nativeEnum(ChannelType),
   transcript_excerpt: z.string(),
 });
 export type PTPCommitment = z.infer<typeof PTPCommitmentSchema>;

@@ -10,8 +10,9 @@ import { Worker, Job, Queue } from 'bullmq';
 import { CaseForDiagnosis, DiagnosticOutput } from './schemas.js';
 import { classifyByRule } from './ruleClassifier.js';
 import { MicroBatcher } from './microBatcher.js';
+import { createRedisConnection } from '../../infrastructure/redis.js';
 
-const redisConnection = { host: process.env.REDIS_HOST || '127.0.0.1', port: parseInt(process.env.REDIS_PORT || '6379') };
+const redisConnection = createRedisConnection();
 const policyQueue = new Queue('policy-evaluation', { connection: redisConnection });
 
 export class DiagnosticRouter {

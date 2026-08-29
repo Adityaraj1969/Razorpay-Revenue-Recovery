@@ -4,6 +4,7 @@ import cors from '@fastify/cors';
 import sensible from '@fastify/sensible';
 import { config } from './config/index.js';
 import { webhookRouter } from './modules/webhooks/router.js';
+import { ptpRouter } from './modules/ptp/ptpRouter.js';
 import { redisClient } from './infrastructure/redis.js';
 
 const fastify = Fastify({
@@ -42,7 +43,7 @@ async function startServer() {
   });
 
   fastify.register(webhookRouter, { prefix: '/api/v1/webhooks' });
-  // fastify.register(caseRouter, { prefix: '/api/v1/cases' });
+  fastify.register(ptpRouter, { prefix: '/api/v1/cases' });
 
   const port = parseInt(config.PORT, 10);
   try {

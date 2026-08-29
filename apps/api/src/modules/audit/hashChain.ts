@@ -3,8 +3,8 @@ import { PrismaClient } from '@revloop/db';
 
 const prisma = new PrismaClient();
 
-export function computeRecordHash(caseId: string, payload: any, previousHash: string): string {
-  const data = caseId + JSON.stringify(payload) + previousHash;
+export function computeRecordHash(caseId: string, payload: any, previousRecordHash: string): string {
+  const data = caseId + JSON.stringify(payload) + previousRecordHash;
   return crypto.createHash('sha256').update(data).digest('hex');
 }
 
@@ -15,9 +15,9 @@ export async function appendCaseEvent(caseId: string, eventType: string, actor: 
       orderBy: { sequenceNumber: 'desc' },
     });
 
-    const previousHash = lastEvent ? lastEvent.hash : '0'.repeat(64);
+    const previousRecordHash = lastEvent ? lastEvent.currentRecordHash : '0'.repeat(64);
     const sequenceNumber = lastEvent ? lastEvent.sequenceNumber + 1 : 1;
-    const hash = computeRecordHash(caseId, payload, previousHash);
+    const currentRecordHash = computeRecordHash(caseId, payload, previousRecordHash);
 
     const newEvent = await tx.caseEvent.create({
       data: {
@@ -25,8 +25,8 @@ export async function appendCaseEvent(caseId: string, eventType: string, actor: 
         eventType,
         actor,
         payload,
-        previousHash,
-        hash,
+        previousRecordHash,
+        currentRecordHash,
         sequenceNumber,
       },
     });
@@ -43,14 +43,14 @@ export async function verifyCaseChain(caseId: string): Promise<boolean> {
 
   let currentPrevHash = '0'.repeat(64);
   for (const event of events) {
-    if (event.previousHash !== currentPrevHash) {
+    if (event.previousRecordHash !== currentPrevHash) {
       return false; // Chain broken
     }
-    const computed = computeRecordHash(caseId, event.payload, event.previousHash);
-    if (computed !== event.hash) {
+    const computed = computeRecordHash(caseId, event.payload, event.previousRecordHash);
+    if (computed !== event.currentRecordHash) {
       return false; // Data tampered
     }
-    currentPrevHash = event.hash;
+    currentPrevHash = event.currentRecordHash;
   }
   return true;
 }

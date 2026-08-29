@@ -32,13 +32,13 @@ export const webhookRouter: FastifyPluginAsync = async (fastify) => {
       const caseRecord = await createOrLinkCase(payload, merchantId);
 
       await diagnosisQueue.add('analyze', {
-        caseId: caseRecord.id,
+        caseId: caseRecord.caseId,
         eventId,
       });
 
       return reply.code(200).send({
-        case_id: caseRecord.id,
-        is_holdout: caseRecord.isHoldout,
+        case_id: caseRecord.caseId,
+        is_holdout: caseRecord.isHoldoutControl,
         status: 'enqueued',
       });
     } catch (err) {

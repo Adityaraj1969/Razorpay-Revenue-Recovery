@@ -8,7 +8,7 @@
 import { acquireCaseLock, releaseCaseLock } from '../../infrastructure/lock.js';
 import { appendCaseEvent } from '../audit/hashChain.js';
 import { retryPayment, scheduleMandateRecheck } from './retryAdapter.js';
-import { sendRecoveryMessage, sendReminderSoft, sendCardUpdateLink } from './whatsappAdapter.js';
+import { sendRecoveryMessage, sendCardUpdateLink } from './whatsappAdapter.js';
 import { sendDunningEmail } from './emailAdapter.js';
 // Using WhatsApp adapter as a fallback for voice agent (A9) for now
 // import { escalateToHitl } from './hitlRouter.js'; // To be implemented

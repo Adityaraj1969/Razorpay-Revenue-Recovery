@@ -8,10 +8,9 @@
     "start": "node dist/server.js",
     "clean": "rm -rf dist",
     "test": "vitest run",
-    "test:unit": "vitest run tests/unit",
+    "test:unit": "vitest run ../../tests/unit",
     "test:integration": "vitest run tests/integration",
-    "test:chaos": "vitest run tests/chaos",
-    "verify:audit-ledger": "tsx src/modules/audit/verifier.ts"
+    "test:chaos": "vitest run tests/chaos"
   },
   "dependencies": {
     "fastify": "^5.0.0",
