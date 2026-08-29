@@ -46,4 +46,29 @@ export const webhookRouter: FastifyPluginAsync = async (fastify) => {
       return reply.code(500).send({ error: 'Internal server error' });
     }
   });
+
+  // Meta WhatsApp Cloud API Webhook Handshake Verification
+  fastify.get('/whatsapp', async (request, reply) => {
+    const query = (request.query || {}) as Record<string, string>;
+    const mode = query['hub.mode'];
+    const token = query['hub.verify_token'];
+    const challenge = query['hub.challenge'];
+
+    const expectedToken = config.WHATSAPP_VERIFY_TOKEN || process.env.WHATSAPP_VERIFY_TOKEN || 'revloop_aibot_secretsecure_2047';
+
+    if (mode === 'subscribe' && token === expectedToken) {
+      fastify.log.info('Meta WhatsApp Webhook verified successfully');
+      return reply.code(200).send(challenge);
+    } else {
+      fastify.log.warn({ received: token, expected: expectedToken }, 'WhatsApp Webhook verification failed');
+      return reply.code(403).send('Forbidden: Verification token mismatch');
+    }
+  });
+
+  // Meta WhatsApp Inbound Events & Customer Replies
+  fastify.post('/whatsapp', async (request, reply) => {
+    const payload = request.body as any;
+    fastify.log.info({ event: 'whatsapp_webhook_received' }, 'Inbound WhatsApp event received');
+    return reply.code(200).send({ status: 'EVENT_RECEIVED' });
+  });
 };
