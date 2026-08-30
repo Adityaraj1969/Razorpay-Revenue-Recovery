@@ -11,6 +11,16 @@ export interface RecoveryCase {
   rootCause: string;
   status: string;
   action: string;
+  confidenceScore?: number;
+  telemetryContext?: string;
+  ruleTriggered?: string;
+  timelineEvents?: Array<{
+    seq: number;
+    type: string;
+    time: string;
+    actor: string;
+    hash: string;
+  }>;
 }
 
 interface CaseTableProps {
