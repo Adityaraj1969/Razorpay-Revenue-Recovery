@@ -10,7 +10,7 @@ export const Sidebar: React.FC = () => {
 
   const navItems = [
     { name: 'Revenue Radar', icon: '📊', path: '/' },
-    { name: 'Opportunities', icon: '📋', path: '/opportunities' },
+    { name: 'Opportunities & Pipeline', icon: '📋', path: '/cases' },
     { name: 'Human Console', icon: '⚠️', path: '/console', badge: 3 },
     { name: 'PTP Calendar', icon: '📅', path: '/ptp' },
     { name: 'Audit Log', icon: '🔒', path: '/audit' },
