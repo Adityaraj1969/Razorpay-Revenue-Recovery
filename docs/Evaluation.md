@@ -104,18 +104,18 @@ $$\text{Net ROI Multiplier} = \frac{\text{Treated Recovered (₹74,84,940)} - \t
 ```mermaid
 flowchart LR
     subgraph INPUT["1. Input Capital at Risk"]
-        CAP["Total Batch at Risk<br/><b>₹1,24,50,000</b> (1,000 Cases)"]
+        CAP["Total Batch at Risk<br/>Rs 1,24,50,000 (1,000 Cases)"]
     end
 
     subgraph RECOVERY["2. Measured Recovery Inflow"]
-        TREATED["Treated Cohort Recovered (90%)<br/><b>₹74,84,940</b> (66.80% NRR)"]
-        CONTROL["Holdout Control Self-Cure (10%)<br/><b>₹2,17,875</b> (17.50% NCR)"]
-        NET_CAP["Net Incremental Capital<br/><b>+₹55,24,065</b> (+49.30% IRY)"]
+        TREATED["Treated Cohort Recovered (90%)<br/>Rs 74,84,940 (66.80% NRR)"]
+        CONTROL["Holdout Control Self-Cure (10%)<br/>Rs 2,17,875 (17.50% NCR)"]
+        NET_CAP["Net Incremental Capital<br/>+Rs 55,24,065 (+49.30% IRY)"]
     end
 
     subgraph EFFICIENCY["3. Economic Multiplier"]
-        COST["Batch Compute & APIs<br/><b>₹4,850.00</b>"]
-        ROI["Net ROI Multiplier<br/><b>1,542.2x Margin</b>"]
+        COST["Batch Compute and APIs<br/>Rs 4,850.00"]
+        ROI["Net ROI Multiplier<br/>1,542.2x Margin"]
     end
 
     CAP --> TREATED

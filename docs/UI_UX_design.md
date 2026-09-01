@@ -20,18 +20,18 @@ The interface exists to answer five critical executive and operational questions
 
 ```mermaid
 flowchart TD
-    CORE["<b>RevLoop Dual-Surface UX Architecture</b>"] --> SURFACE_A["<b>Surface A: Merchant Control Plane</b><br/>(Next.js 15 App Router + Tailwind)"]
-    CORE --> SURFACE_B["<b>Surface B: Payer Multi-Channel Experience</b><br/>(Frictionless Zero-Latency Recovery)"]
+    CORE["RevLoop Dual-Surface UX Architecture"] --> SURFACE_A["Surface A: Merchant Control Plane<br/>(Next.js 15 App Router + Tailwind)"]
+    CORE --> SURFACE_B["Surface B: Payer Multi-Channel Experience<br/>(Frictionless Zero-Latency Recovery)"]
 
     SURFACE_A --> A1["Executive Revenue Radar (Live SSE Stream)"]
-    SURFACE_A --> A2["Opportunities & Case Pipeline Filter"]
-    SURFACE_A --> A3["Human Console (Disputes & High-Value Gating)"]
-    SURFACE_A --> A4["Audit Log & Cryptographic SHA-256 Explorer"]
+    SURFACE_A --> A2["Opportunities and Case Pipeline Filter"]
+    SURFACE_A --> A3["Human Console (Disputes and High-Value Gating)"]
+    SURFACE_A --> A4["Audit Log and Cryptographic SHA-256 Explorer"]
 
     SURFACE_B --> B1["WhatsApp 1-Click UPI Intent Dynamic Link"]
     SURFACE_B --> B2["LiveKit In-Browser WebRTC Voice Interaction"]
     SURFACE_B --> B3["Razorpay Smart Collect Virtual Account Card"]
-    SURFACE_B --> B4["Explicit Stopping & Opt-Out Safeguards"]
+    SURFACE_B --> B4["Explicit Stopping and Opt-Out Safeguards"]
 ```
 
 ---

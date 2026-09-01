@@ -16,24 +16,24 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
 
 ```mermaid
 flowchart TB
-    subgraph PHASE1["Phase 1: Ingestion & Event Spine"]
-        P1["• Razorpay Webhooks (HMAC-SHA256)<br/>• Passive Bank Health Sentinel<br/>• Event Deduplication (Redis SETNX)"]
+    subgraph PHASE1["Phase 1: Ingestion and Event Spine"]
+        P1["- Razorpay Webhooks (HMAC-SHA256)<br/>- Passive Bank Health Sentinel<br/>- Event Deduplication (Redis SETNX)"]
     end
 
-    subgraph PHASE2["Phase 2: Diagnostic & Policy Core"]
-        P2["• Two-Stage Diagnostic Engine (DGN-01..12)<br/>• 78% Deterministic Rule Bypass<br/>• Pure Policy Gate (Zero LLM Authorization)"]
+    subgraph PHASE2["Phase 2: Diagnostic and Policy Core"]
+        P2["- Two-Stage Diagnostic Engine (DGN-01..12)<br/>- 78% Deterministic Rule Bypass<br/>- Pure Policy Gate (Zero LLM Auth)"]
     end
 
     subgraph PHASE3["Phase 3: Execution Mesh (A1..A11)"]
-        P3["• Smart Mandate Retrier (NPCI Windows)<br/>• WhatsApp 1-Click Dynamic Links<br/>• LiveKit Hinglish WebRTC Voice Agent"]
+        P3["- Smart Mandate Retrier (NPCI Windows)<br/>- WhatsApp 1-Click Dynamic Links<br/>- LiveKit Hinglish WebRTC Voice Agent"]
     end
 
-    subgraph PHASE4["Phase 4: Governance & Stopping"]
-        P4["• Hard-Stop on Settlement (Sub-100ms)<br/>• TRAI / RBI Fair Practices Compliance<br/>• Cryptographic SHA-256 Audit Ledger"]
+    subgraph PHASE4["Phase 4: Governance and Stopping"]
+        P4["- Hard-Stop on Settlement (Sub-100ms)<br/>- TRAI / RBI Fair Practices Compliance<br/>- Cryptographic SHA-256 Audit Ledger"]
     end
 
-    subgraph PHASE5["Phase 5: Evaluation & Radar UI"]
-        P5["• RevRecover-1000 Batch Simulation<br/>• Next.js 15 Recovery Radar (SSE)<br/>• Human Console & Demonstration"]
+    subgraph PHASE5["Phase 5: Evaluation and Radar UI"]
+        P5["- RevRecover-1000 Batch Simulation<br/>- Next.js 15 Recovery Radar (SSE)<br/>- Human Console and Demonstration"]
     end
 
     PHASE1 --> PHASE2

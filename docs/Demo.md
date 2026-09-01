@@ -48,13 +48,13 @@ flowchart LR
         F1_WA --> F1_SETTLE["Customer Pays -> Hard Stop in 64ms"]
     end
 
-    subgraph FLOW2["Workflow 2: B2B Voice & PTP Lock"]
-        F2_INV["Overdue Invoice ₹85,000"] --> F2_CALL["LiveKit WebRTC Voice Call"]
-        F2_CALL --> F2_PTP["Commitment: '26 Aug 11:00 AM'"]
+    subgraph FLOW2["Workflow 2: B2B Voice and PTP Lock"]
+        F2_INV["Overdue Invoice Rs 85,000"] --> F2_CALL["LiveKit WebRTC Voice Call"]
+        F2_CALL --> F2_PTP["Commitment: 26 Aug 11:00 AM"]
         F2_PTP --> F2_SMART["Smart Collect Virtual Account Locked"]
     end
 
-    subgraph FLOW3["Workflow 3: Real-Time Radar & Audit"]
+    subgraph FLOW3["Workflow 3: Real-Time Radar and Audit"]
         F3_BATCH["RevRecover-1000 Ingestion"] --> F3_RADAR["Live Radar Dashboard (SSE)"]
         F3_RADAR --> F3_AUDIT["Per-Case SHA-256 Ledger Verified"]
     end

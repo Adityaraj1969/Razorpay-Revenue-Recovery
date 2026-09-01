@@ -17,12 +17,12 @@ Validation of an autonomous revenue recovery agent requires proving that the sys
 
 ```mermaid
 flowchart TD
-    SURFACE["<b>RevLoop System Validation Surface</b>"] --> D1["150 Chaos Scenarios<br/>(6 Distinct Domains)"]
-    SURFACE --> D2["Adversarial Injections<br/>(Floor Clamping <= 5%)"]
+    SURFACE["RevLoop System Validation Surface"] --> D1["150 Chaos Scenarios<br/>(6 Distinct Domains)"]
+    SURFACE --> D2["Adversarial Injections<br/>(Floor Clamping at most 5%)"]
     SURFACE --> D3["Statutory Audits<br/>(100% TRAI/RBI Adherence)"]
-    SURFACE --> D4["Concurrency Mutexes<br/>(Redlock & SETNX Idempotency)"]
+    SURFACE --> D4["Concurrency Mutexes<br/>(Redlock and SETNX Idempotency)"]
 
-    D1 --> HARNESS["<b>Automated Test Harnesses</b><br/>• Vitest Unit & Integration Suites<br/>• N = 1,500 Micro-Benchmark Runner"]
+    D1 --> HARNESS["Automated Test Harnesses<br/>- Vitest Unit and Integration Suites<br/>- N = 1,500 Micro-Benchmark Runner"]
     D2 --> HARNESS
     D3 --> HARNESS
     D4 --> HARNESS

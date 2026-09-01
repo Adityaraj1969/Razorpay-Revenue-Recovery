@@ -131,13 +131,13 @@ Cases meeting any of the following criteria are immediately routed to the **Merc
 
 ```mermaid
 flowchart TD
-    CASE["Case Ingestion & Diagnostics"] --> TRIGGERS{"HITL Trigger Condition?"}
-    TRIGGERS -->|Amount >= ₹2,00,000| HIGH_VAL["High-Value Invoice Gating"]
-    TRIGGERS -->|DGN-09: Billing Dispute| DISPUTE["Customer Dispute Triage"]
-    TRIGGERS -->|DGN-12: Low Confidence| LOW_CONF["Low-Confidence Fallback"]
+    CASE["Case Ingestion and Diagnostics"] --> TRIGGERS{"Evaluate HITL Triggers"}
+    TRIGGERS -->|Amount 2 Lakh or more| HIGH_VAL["High-Value Invoice Gating"]
+    TRIGGERS -->|DGN-09 Billing Dispute| DISPUTE["Customer Dispute Triage"]
+    TRIGGERS -->|DGN-12 Low Confidence| LOW_CONF["Low-Confidence Fallback"]
     TRIGGERS -->|2 Broken Commitments| DELINQUENT["Delinquency Risk Escalation"]
     
-    HIGH_VAL --> DESK["<b>Merchant Human Console Desk</b><br/>• Full Case Evidence & Transcripts<br/>• 1-Click Credit Note / Waiver Approval"]
+    HIGH_VAL --> DESK["Merchant Human Console Desk<br/>- Full Case Evidence and Transcripts<br/>- 1-Click Credit Note or Waiver Approval"]
     DISPUTE --> DESK
     LOW_CONF --> DESK
     DELINQUENT --> DESK
