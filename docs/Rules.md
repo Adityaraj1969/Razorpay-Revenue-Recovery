@@ -53,19 +53,19 @@ Before *any* recovery action is dispatched (payment retry, WhatsApp message, voi
 
 ```mermaid
 flowchart TD
-    INBOUND["Inbound Event or Scheduled Action"] --> CHECK_SETTLE{"STOP-01: Payment Verified?<br/>(payment.authorized)"}
-    CHECK_SETTLE -->|YES| HALT_RECOVERED["<b>Abort Outreach in 64ms</b><br/>Drop Voice in 85ms<br/>State: RECOVERED"]
+    INBOUND["Inbound Event or Scheduled Action"] --> CHECK_SETTLE{"STOP-01: Is Payment Verified"}
+    CHECK_SETTLE -->|YES| HALT_RECOVERED["Abort Outreach in 64ms<br/>Drop Voice in 85ms<br/>State: RECOVERED"]
     
-    CHECK_SETTLE -->|NO| CHECK_OPTOUT{"STOP-02: Opt-Out Received?<br/>('STOP' / 'DND')"}
-    CHECK_OPTOUT -->|YES| HALT_OPTOUT["<b>Permanent Blacklist</b><br/>Halt All Channels<br/>State: SUPPRESSED_OPT_OUT"]
+    CHECK_SETTLE -->|NO| CHECK_OPTOUT{"STOP-02: Is Opt-Out Received"}
+    CHECK_OPTOUT -->|YES| HALT_OPTOUT["Permanent Blacklist<br/>Halt All Channels<br/>State: SUPPRESSED_OPT_OUT"]
     
-    CHECK_OPTOUT -->|NO| CHECK_PTP{"STOP-06: PTP Commitment?<br/>(Promise Date Valid)"}
-    CHECK_PTP -->|YES| HALT_PTP["<b>Lock Outreach</b><br/>Suspend until T - 2h<br/>State: PTP_LOCKED"]
+    CHECK_OPTOUT -->|NO| CHECK_PTP{"STOP-06: Is PTP Commitment Active"}
+    CHECK_PTP -->|YES| HALT_PTP["Lock Outreach<br/>Suspend until T minus 2h<br/>State: PTP_LOCKED"]
     
-    CHECK_PTP -->|NO| CHECK_BANK{"STOP-05: Issuer Degraded?<br/>(Failure Rate >= 30%)"}
-    CHECK_BANK -->|YES| HALT_BANK["<b>Hold Cooldown</b><br/>Wait for >= 90% Uptime<br/>State: PAUSED_BANK_OUTAGE"]
+    CHECK_PTP -->|NO| CHECK_BANK{"STOP-05: Is Issuer Degraded"}
+    CHECK_BANK -->|YES| HALT_BANK["Hold Cooldown<br/>Wait for 90% or more Uptime<br/>State: PAUSED_BANK_OUTAGE"]
     
-    CHECK_BANK -->|NO| EXECUTE_ACTION["<b>Policy Gating Passed</b><br/>Dispatch Recovery Action (A1..A11)"]
+    CHECK_BANK -->|NO| EXECUTE_ACTION["Policy Gating Passed<br/>Dispatch Recovery Action A1 to A11"]
 ```
 
 ---

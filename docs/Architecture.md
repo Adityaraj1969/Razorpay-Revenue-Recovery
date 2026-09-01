@@ -209,28 +209,28 @@ sequenceDiagram
     participant RZP as Razorpay Smart Collect
 
     ERP->>Agent: Invoice INV-8821 Overdue by 18 Days (Rs 85,000)
-    Agent->>Agent: Evaluate Governance: Calling window valid (11:30 AM IST), Attempts: 0/2
+    Agent->>Agent: Evaluate Governance - Calling window valid (11:30 AM IST), Attempts 0/2
     Agent->>LK: Open WebRTC Voice Room
     LK->>Client: In-Browser Simulated Call Connected
     
-    Client->>LK: Audio Stream: Haanji, kaun bol raha hai?
+    Client->>LK: Audio Stream - Haanji, kaun bol raha hai?
     LK->>Gemini: Bidirectional Audio Stream
-    Gemini-->>LK: Streamed Hinglish Audio: Namaste Sharma ji, TechServe Finance se Aarav bol raha hoon. Rs 85,000 ka invoice pending hai.
+    Gemini-->>LK: Streamed Hinglish Audio - Namaste Sharma ji, TechServe Finance se Aarav bol raha hoon. Rs 85,000 ka invoice pending hai.
     LK-->>Client: Natural Hinglish Audio (p95 Sub-785ms turnaround)
 
     Client->>LK: Arre bhai, abhi account manager bahar hai. Main parso subah 11 baje tak RTGS karwa dunga pakka.
     LK->>Agent: Captured Transcript
-    Agent->>Agent: Extract Temporal Entity: { ptp_timestamp: "2026-08-26T11:00:00+05:30", amount: 85000, method: "RTGS" }
+    Agent->>Agent: Extract Temporal Entity - 2026-08-26 11:00 AM, Rs 85,000, RTGS
     
     Agent->>PTP: Lock PTP Commitment (2026-08-26 11:00 AM)
-    Gemini-->>LK: "Theek hai Sharma ji, maine 26 August subah 11 baje note kar liya hai. Virtual Account details WhatsApp kar di hain."
-    Agent->>Client: WhatsApp: Razorpay Smart Collect Details (IFSC: RAZR0000001, Acc: RAZRINV8821)
+    Gemini-->>LK: Theek hai Sharma ji, maine 26 August subah 11 baje note kar liya hai. Virtual Account details WhatsApp kar di hain.
+    Agent->>Client: WhatsApp - Razorpay Smart Collect Details (IFSC RAZR0000001, Acc RAZRINV8821)
 
     Note over PTP: Active outreach suspended until 2 hours before PTP deadline
     PTP->>Client: WhatsApp Gentle Reminder (26 Aug, 09:00 AM)
-    Client->>RZP: RTGS ₹85,000 transferred to Virtual Account
-    RZP->>Agent: Webhook: virtual_account.credited (₹85,000)
-    Agent->>PTP: Mark PTP Fulfilled & Resolve Recovery Case
+    Client->>RZP: RTGS Rs 85,000 transferred to Virtual Account
+    RZP->>Agent: Webhook - virtual_account.credited (Rs 85,000)
+    Agent->>PTP: Mark PTP Fulfilled and Resolve Recovery Case
 ```
 
 ---
