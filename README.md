@@ -37,43 +37,34 @@
 ## 🏛️ System Architecture
 
 ```mermaid
-flowchart TD
-    subgraph Ingestion["1. INGESTION AND SENTINEL"]
-        A["Razorpay Webhooks and Events"] --> B["HMAC-SHA256 Auth and Idempotency"]
-        B --> C["Passive Bank Health Sentinel"]
-    end
-
-    subgraph Intelligence["2. DIAGNOSTIC REASONING"]
-        C --> D["Tier 0: Fast Rule Classifier Sub-5ms"]
-        D -->|Ambiguous Cases| E["Tier 1: Gemini 2.5 Flash and Groq LLM"]
-        E --> F["DGN-01 to DGN-12 Root Cause Diagnosis"]
-    end
-
-    subgraph Governance["3. POLICY GATEWAY AND SAFETY GATES"]
-        F --> G["Policy Gatekeeper Deterministic Code"]
-        G --> H{"Stopping Rules and Safety Gates"}
-        H -->|Holdout Group| I["A11: Suppress and Measure Control"]
-        H -->|Disputed or High Value| J["A10: Escalate to Human Console"]
-        H -->|Approved Policy| K["A1 to A9: Recovery Action Catalog"]
-    end
-
-    subgraph Mesh["4. EXECUTION MESH AND CHANNELS"]
-        K --> L["WhatsApp 1-Click Payment Templates"]
-        K --> M["B2B Staged Dunning Email Engine"]
-        K --> N["LiveKit WebRTC Hinglish Voice Agent"]
-        K --> O["Mandate Auto-Retry Clearing Scheduler"]
-    end
-
-    subgraph Verification["5. SETTLEMENT AND AUDIT"]
-        P["Authoritative Payment Settlement Webhook"] --> Q["Sub-100ms Settlement Abort Engine"]
-        Q --> R["Immutable SHA-256 Hash Chain Ledger"]
-        R --> S["Next.js 15 Operator Revenue Radar"]
-    end
-
-    L --> P
+graph TD
+    A["Razorpay Webhooks and Events"] --> B["HMAC-SHA256 Auth and Idempotency"]
+    B --> C["Passive Bank Health Sentinel"]
+    
+    C --> D["Tier-0: Fast Rule Classifier (Sub-5ms)"]
+    D -->|Ambiguous Cases| E["Tier-1: Gemini 2.5 Flash and Groq LLM"]
+    D -->|Deterministic| F["DGN-01 to DGN-12 Root Cause Diagnosis"]
+    E --> F
+    
+    F --> G["Policy Gatekeeper (Deterministic Code)"]
+    G --> H{"Stopping Rules and Safety Gates"}
+    H -->|Holdout Control| I["A11: Suppress and Measure"]
+    H -->|Disputed or High Value| J["A10: Escalate to Human Console"]
+    H -->|Approved Policy| K["A1 to A9: Recovery Action Catalog"]
+    
+    K --> L["WhatsApp 1-Click Payment Links"]
+    K --> M["B2B Staged Dunning Email"]
+    K --> N["LiveKit WebRTC Voice Agent"]
+    K --> O["Mandate Auto-Retry Scheduler"]
+    
+    L --> P["Authoritative Settlement Webhook"]
     M --> P
     N --> P
     O --> P
+    
+    P --> Q["Sub-100ms Settlement Abort"]
+    Q --> R["Immutable SHA-256 Hash Chain Ledger"]
+    R --> S["Next.js 15 Operator Revenue Radar"]
 ```
 
 ---
