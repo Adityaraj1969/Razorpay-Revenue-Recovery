@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { Logo } from './Logo';
+
 export const Sidebar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
@@ -20,11 +22,17 @@ export const Sidebar: React.FC = () => {
   return (
     <div className={`h-screen bg-[#0C2340] text-white flex flex-col transition-all duration-300 ${collapsed ? 'w-20' : 'w-64'}`}>
       <div className="p-4 border-b border-white/10 flex items-center justify-between">
-        {!collapsed && <span className="font-bold text-xl tracking-tight text-white">RevLoop <span className="text-[#3B82F6]">AI</span></span>}
-        {collapsed && <span className="font-bold text-xl text-[#3B82F6]">R</span>}
+        <Link href="/" className="hover:opacity-90 transition-opacity">
+          {!collapsed ? (
+            <Logo size="md" variant="full" />
+          ) : (
+            <Logo size="sm" variant="icon" />
+          )}
+        </Link>
         <button 
           onClick={() => setCollapsed(!collapsed)}
-          className="text-white/50 hover:text-white transition-colors"
+          className="text-white/50 hover:text-white transition-colors p-1 rounded-md hover:bg-white/5"
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           ☰
         </button>
