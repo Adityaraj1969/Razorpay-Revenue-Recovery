@@ -51,6 +51,13 @@ In Indian digital commerce, payment failures and unpaid B2B invoices trigger sub
 
 ## 🏛️ System Architecture
 
+<p align="center">
+  <img src="assets/system-architecture.svg" alt="RevLoop AI System Architecture" width="100%" />
+</p>
+
+<details>
+<summary><b>🔍 Click to view interactive Mermaid flowchart source</b></summary>
+
 ```mermaid
 graph TD
     subgraph Ingestion [1. Ingestion and Sentinel]
@@ -90,6 +97,8 @@ graph TD
     N --> P
     O --> P
 ```
+
+</details>
 
 ---
 
