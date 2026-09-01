@@ -1,22 +1,30 @@
-# RevLoop AI: Autonomous Closed-Loop Revenue Recovery Engine
-### Razorpay Buildathon 2026 — Track 03: AI Revenue Recovery
+<p align="center">
+  <img src="assets/revloop-logo.svg" alt="RevLoop AI Logo" width="130" height="130" />
+</p>
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.0-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![Fastify](https://img.shields.io/badge/Fastify-5.0-000000?style=flat-square&logo=fastify)](https://fastify.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
-[![Redis](https://img.shields.io/badge/Redis-7.4-DC382D?style=flat-square&logo=redis)](https://redis.io/)
-[![Razorpay](https://img.shields.io/badge/Razorpay-API%20Sandbox-0C2340?style=flat-square&logo=razorpay)](https://razorpay.com/)
-[![Meta WhatsApp](https://img.shields.io/badge/Meta-WhatsApp%20Cloud%20API-25D366?style=flat-square&logo=whatsapp)](https://developers.facebook.com/)
-[![Google Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4?style=flat-square&logo=google)](https://ai.google.dev/)
-[![Groq](https://img.shields.io/badge/Groq-Llama%203.3%2070B-F55036?style=flat-square)](https://groq.com/)
-[![LiveKit](https://img.shields.io/badge/LiveKit-WebRTC%20Voice-002B36?style=flat-square)](https://livekit.io/)
-[![Vitest](https://img.shields.io/badge/Tests-29%2F29%20Passing-6E9F18?style=flat-square&logo=vitest)](https://vitest.dev/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+<h1 align="center">RevLoop AI: Autonomous Closed-Loop Revenue Recovery Engine</h1>
+<h3 align="center">Razorpay Buildathon 2026 — Track 03: AI Revenue Recovery</h3>
 
-> **"Find revenue that’s slipping away and win it back."**  
-> *Core Architectural Invariant: "The LLM Proposes, The Code Disposes."*  
-> *Release Version:* `2.4.0-ENTERPRISE-PROD`
+<p align="center">
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-15.0-black?style=flat-square&logo=next.js" alt="Next.js" /></a>
+  <a href="https://fastify.dev/"><img src="https://img.shields.io/badge/Fastify-5.0-000000?style=flat-square&logo=fastify" alt="Fastify" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.6-3178C6?style=flat-square&logo=typescript" alt="TypeScript" /></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql" alt="PostgreSQL" /></a>
+  <a href="https://redis.io/"><img src="https://img.shields.io/badge/Redis-7.4-DC382D?style=flat-square&logo=redis" alt="Redis" /></a>
+  <a href="https://razorpay.com/"><img src="https://img.shields.io/badge/Razorpay-API%20Sandbox-0C2340?style=flat-square&logo=razorpay" alt="Razorpay" /></a>
+  <a href="https://developers.facebook.com/"><img src="https://img.shields.io/badge/Meta-WhatsApp%20Cloud%20API-25D366?style=flat-square&logo=whatsapp" alt="WhatsApp" /></a>
+  <a href="https://ai.google.dev/"><img src="https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4?style=flat-square&logo=google" alt="Gemini" /></a>
+  <a href="https://groq.com/"><img src="https://img.shields.io/badge/Groq-Llama%203.3%2070B-F55036?style=flat-square" alt="Groq" /></a>
+  <a href="https://livekit.io/"><img src="https://img.shields.io/badge/LiveKit-WebRTC%20Voice-002B36?style=flat-square" alt="LiveKit" /></a>
+  <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Tests-29%2F29%20Passing-6E9F18?style=flat-square&logo=vitest" alt="Vitest" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License" /></a>
+</p>
+
+<p align="center">
+  <strong><em>"Find revenue that’s slipping away and win it back."</em></strong><br/>
+  <em>Core Architectural Invariant: "The LLM Proposes, The Code Disposes."</em><br/>
+  <code>Release Version: 2.4.0-ENTERPRISE-PROD</code>
+</p>
 
 ---
 
