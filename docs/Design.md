@@ -45,13 +45,13 @@ erDiagram
         uuid case_id PK
         uuid merchant_id FK
         uuid customer_id FK
-        string entity_type "PAYMENT|ORDER|SUBSCRIPTION|INVOICE|VIRTUAL_ACCOUNT"
+        string entity_type
         string rzp_entity_id
         bigint amount_at_risk_paise
         bigint amount_recovered_paise
         string current_status
-        string root_cause_category "DGN-01..12"
-        string policy_action "A1..A11"
+        string root_cause_category
+        string policy_action
         int attempt_count
         boolean is_holdout_control
         timestamp next_action_at
@@ -70,11 +70,20 @@ erDiagram
         timestamp occurred_at
     }
 
+    DIAGNOSES {
+        uuid diagnosis_id PK
+        uuid case_id FK
+        string diagnosis_code
+        float confidence
+        string tier
+        timestamp diagnosed_at
+    }
+
     RECOVERY_ATTEMPTS {
         uuid attempt_id PK
         uuid case_id FK
         int attempt_number
-        string channel "VOICE|WHATSAPP|RETRY|EMAIL"
+        string channel
         string delivery_status
         jsonb payload_sent
         jsonb customer_response
@@ -88,8 +97,26 @@ erDiagram
         uuid case_id FK
         timestamp promised_timestamp
         bigint promised_amount_paise
-        string status "PENDING|KEPT|BROKEN"
+        string status
         timestamp fulfilled_at
+    }
+
+    RULE_EVALUATIONS {
+        uuid eval_id PK
+        uuid attempt_id FK
+        string rule_code
+        boolean passed
+        string reason
+        timestamp evaluated_at
+    }
+
+    RAZORPAY_SETTLEMENTS {
+        uuid settlement_id PK
+        uuid case_id FK
+        string rzp_payment_id
+        bigint amount_paise
+        string method
+        timestamp settled_at
     }
 ```
 
