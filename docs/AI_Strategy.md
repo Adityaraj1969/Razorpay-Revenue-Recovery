@@ -172,7 +172,7 @@ sequenceDiagram
     Agent->>Gemini: Bidirectional Audio Websocket (PCM 24kHz)
     Gemini-->>Agent: Native Streaming Audio Response (Hinglish Accent)
     Agent-->>LK: Stream Audio Track
-    LK-->>Client: Real-Time Hinglish Voice (<780ms Latency, Zero Telephony Cost)
+    LK-->>Client: Real-Time Hinglish Voice (Sub-780ms Latency, Zero Telephony Cost)
 ```
 
 ### 5.1 Licensed Open-Source Speech Synthesis Architecture

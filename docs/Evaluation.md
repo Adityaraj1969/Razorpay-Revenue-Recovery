@@ -114,7 +114,7 @@ flowchart LR
     end
 
     subgraph EFFICIENCY["3. Economic Multiplier"]
-        COST["Batch Compute &amp; APIs<br/><b>₹4,850.00</b>"]
+        COST["Batch Compute & APIs<br/><b>₹4,850.00</b>"]
         ROI["Net ROI Multiplier<br/><b>1,542.2x Margin</b>"]
     end
 

@@ -141,10 +141,10 @@ razorpay-revenue-recovery/
 
 ```mermaid
 flowchart TD
-    subgraph PYRAMID["Quality Assurance &amp; Testing Pyramid"]
+    subgraph PYRAMID["Quality Assurance & Testing Pyramid"]
         direction TB
-        CHAOS["<b>Top Tier: Chaos &amp; Batch Simulation (15%)</b><br/>• RevRecover-1000 Batch Evaluation<br/>• 150 Chaos Scenarios across 6 Stress Domains"]
-        INT["<b>Middle Tier: Integration Tests (35%)</b><br/>• Razorpay Webhook Signatures &amp; Deduplication<br/>• BullMQ Queues, Redis Redlock &amp; SSE Feeds"]
+        CHAOS["<b>Top Tier: Chaos & Batch Simulation (15%)</b><br/>• RevRecover-1000 Batch Evaluation<br/>• 150 Chaos Scenarios across 6 Stress Domains"]
+        INT["<b>Middle Tier: Integration Tests (35%)</b><br/>• Razorpay Webhook Signatures & Deduplication<br/>• BullMQ Queues, Redis Redlock & SSE Feeds"]
         UNIT["<b>Foundation Tier: Unit Tests (50%)</b><br/>• Deterministic Policy Gatekeeper<br/>• Concession Sanitizer Floor Clamping<br/>• Per-Case SHA-256 Hash Chaining"]
         
         CHAOS --> INT

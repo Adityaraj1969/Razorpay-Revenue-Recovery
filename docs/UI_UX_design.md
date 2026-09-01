@@ -24,14 +24,14 @@ flowchart TD
     CORE --> SURFACE_B["<b>Surface B: Payer Multi-Channel Experience</b><br/>(Frictionless Zero-Latency Recovery)"]
 
     SURFACE_A --> A1["Executive Revenue Radar (Live SSE Stream)"]
-    SURFACE_A --> A2["Opportunities &amp; Case Pipeline Filter"]
-    SURFACE_A --> A3["Human Console (Disputes &amp; High-Value Gating)"]
-    SURFACE_A --> A4["Audit Log &amp; Cryptographic SHA-256 Explorer"]
+    SURFACE_A --> A2["Opportunities & Case Pipeline Filter"]
+    SURFACE_A --> A3["Human Console (Disputes & High-Value Gating)"]
+    SURFACE_A --> A4["Audit Log & Cryptographic SHA-256 Explorer"]
 
     SURFACE_B --> B1["WhatsApp 1-Click UPI Intent Dynamic Link"]
     SURFACE_B --> B2["LiveKit In-Browser WebRTC Voice Interaction"]
     SURFACE_B --> B3["Razorpay Smart Collect Virtual Account Card"]
-    SURFACE_B --> B4["Explicit Stopping &amp; Opt-Out Safeguards"]
+    SURFACE_B --> B4["Explicit Stopping & Opt-Out Safeguards"]
 ```
 
 ---

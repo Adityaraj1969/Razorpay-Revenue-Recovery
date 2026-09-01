@@ -16,11 +16,11 @@ The Razorpay Buildathon rewards deep, verified systems with measured recovery ov
 
 ```mermaid
 flowchart TB
-    subgraph PHASE1["Phase 1: Ingestion &amp; Event Spine"]
+    subgraph PHASE1["Phase 1: Ingestion & Event Spine"]
         P1["• Razorpay Webhooks (HMAC-SHA256)<br/>• Passive Bank Health Sentinel<br/>• Event Deduplication (Redis SETNX)"]
     end
 
-    subgraph PHASE2["Phase 2: Diagnostic &amp; Policy Core"]
+    subgraph PHASE2["Phase 2: Diagnostic & Policy Core"]
         P2["• Two-Stage Diagnostic Engine (DGN-01..12)<br/>• 78% Deterministic Rule Bypass<br/>• Pure Policy Gate (Zero LLM Authorization)"]
     end
 
@@ -28,12 +28,12 @@ flowchart TB
         P3["• Smart Mandate Retrier (NPCI Windows)<br/>• WhatsApp 1-Click Dynamic Links<br/>• LiveKit Hinglish WebRTC Voice Agent"]
     end
 
-    subgraph PHASE4["Phase 4: Governance &amp; Stopping"]
-        P4["• Hard-Stop on Settlement (&lt;100ms)<br/>• TRAI / RBI Fair Practices Compliance<br/>• Cryptographic SHA-256 Audit Ledger"]
+    subgraph PHASE4["Phase 4: Governance & Stopping"]
+        P4["• Hard-Stop on Settlement (Sub-100ms)<br/>• TRAI / RBI Fair Practices Compliance<br/>• Cryptographic SHA-256 Audit Ledger"]
     end
 
-    subgraph PHASE5["Phase 5: Evaluation &amp; Radar UI"]
-        P5["• RevRecover-1000 Batch Simulation<br/>• Next.js 15 Recovery Radar (SSE)<br/>• Human Console &amp; Demonstration"]
+    subgraph PHASE5["Phase 5: Evaluation & Radar UI"]
+        P5["• RevRecover-1000 Batch Simulation<br/>• Next.js 15 Recovery Radar (SSE)<br/>• Human Console & Demonstration"]
     end
 
     PHASE1 --> PHASE2

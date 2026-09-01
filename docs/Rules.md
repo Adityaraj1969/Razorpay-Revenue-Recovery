@@ -54,16 +54,16 @@ Before *any* recovery action is dispatched (payment retry, WhatsApp message, voi
 ```mermaid
 flowchart TD
     INBOUND["Inbound Event or Scheduled Action"] --> CHECK_SETTLE{"STOP-01: Payment Verified?<br/>(payment.authorized)"}
-    CHECK_SETTLE -->|YES| HALT_RECOVERED["<b>Abort Outreach in 64ms</b><br/>Drop Voice in 85ms<br/>&rarr; State: RECOVERED"]
+    CHECK_SETTLE -->|YES| HALT_RECOVERED["<b>Abort Outreach in 64ms</b><br/>Drop Voice in 85ms<br/>State: RECOVERED"]
     
     CHECK_SETTLE -->|NO| CHECK_OPTOUT{"STOP-02: Opt-Out Received?<br/>('STOP' / 'DND')"}
-    CHECK_OPTOUT -->|YES| HALT_OPTOUT["<b>Permanent Blacklist</b><br/>Halt All Channels<br/>&rarr; State: SUPPRESSED_OPT_OUT"]
+    CHECK_OPTOUT -->|YES| HALT_OPTOUT["<b>Permanent Blacklist</b><br/>Halt All Channels<br/>State: SUPPRESSED_OPT_OUT"]
     
     CHECK_OPTOUT -->|NO| CHECK_PTP{"STOP-06: PTP Commitment?<br/>(Promise Date Valid)"}
-    CHECK_PTP -->|YES| HALT_PTP["<b>Lock Outreach</b><br/>Suspend until T - 2h<br/>&rarr; State: PTP_LOCKED"]
+    CHECK_PTP -->|YES| HALT_PTP["<b>Lock Outreach</b><br/>Suspend until T - 2h<br/>State: PTP_LOCKED"]
     
-    CHECK_PTP -->|NO| CHECK_BANK{"STOP-05: Issuer Degraded?<br/>(Failure Rate &ge; 30%)"}
-    CHECK_BANK -->|YES| HALT_BANK["<b>Hold Cooldown</b><br/>Wait for &ge; 90% Uptime<br/>&rarr; State: PAUSED_BANK_OUTAGE"]
+    CHECK_PTP -->|NO| CHECK_BANK{"STOP-05: Issuer Degraded?<br/>(Failure Rate >= 30%)"}
+    CHECK_BANK -->|YES| HALT_BANK["<b>Hold Cooldown</b><br/>Wait for >= 90% Uptime<br/>State: PAUSED_BANK_OUTAGE"]
     
     CHECK_BANK -->|NO| EXECUTE_ACTION["<b>Policy Gating Passed</b><br/>Dispatch Recovery Action (A1..A11)"]
 ```
@@ -131,13 +131,13 @@ Cases meeting any of the following criteria are immediately routed to the **Merc
 
 ```mermaid
 flowchart TD
-    CASE["Case Ingestion &amp; Diagnostics"] --> TRIGGERS{"HITL Trigger Condition?"}
-    TRIGGERS -->|Amount > ₹2,00,000| HIGH_VAL["High-Value Invoice Gating"]
+    CASE["Case Ingestion & Diagnostics"] --> TRIGGERS{"HITL Trigger Condition?"}
+    TRIGGERS -->|Amount >= ₹2,00,000| HIGH_VAL["High-Value Invoice Gating"]
     TRIGGERS -->|DGN-09: Billing Dispute| DISPUTE["Customer Dispute Triage"]
-    TRIGGERS -->|DGN-12: Confidence < 0.70| LOW_CONF["Low-Confidence Fallback"]
+    TRIGGERS -->|DGN-12: Low Confidence| LOW_CONF["Low-Confidence Fallback"]
     TRIGGERS -->|2 Broken Commitments| DELINQUENT["Delinquency Risk Escalation"]
     
-    HIGH_VAL --> DESK["<b>Merchant Human Console Desk</b><br/>• Full Case Evidence &amp; Transcripts<br/>• 1-Click Credit Note / Waiver Approval"]
+    HIGH_VAL --> DESK["<b>Merchant Human Console Desk</b><br/>• Full Case Evidence & Transcripts<br/>• 1-Click Credit Note / Waiver Approval"]
     DISPUTE --> DESK
     LOW_CONF --> DESK
     DELINQUENT --> DESK

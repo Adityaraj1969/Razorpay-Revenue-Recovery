@@ -14,7 +14,7 @@ RevLoop AI is an autonomous, closed-loop revenue recovery agent for Razorpay mer
 ```mermaid
 flowchart LR
     subgraph INGEST["1. Detect Risk"]
-        RZP_SIG["Razorpay Webhook<br/>&amp; Passive Sentinel"]
+        RZP_SIG["Razorpay Webhook<br/>& Passive Sentinel"]
     end
 
     subgraph DIAGNOSE["2. Classify Cause"]
@@ -29,7 +29,7 @@ flowchart LR
         MESH["Multi-Channel Mesh<br/>(WhatsApp, Voice, Retrier)"]
     end
 
-    subgraph VERIFY["5. Verify &amp; Ledger"]
+    subgraph VERIFY["5. Verify & Ledger"]
         SETTLE["Authoritative Settlement<br/>+ Per-Case Hash Ledger"]
     end
 
