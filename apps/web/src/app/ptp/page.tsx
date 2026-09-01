@@ -337,78 +337,85 @@ export default function PTPCalendarPage() {
           </div>
         </div>
 
-        <table className="w-full text-left text-sm whitespace-nowrap divide-y divide-gray-200">
-          <thead className="bg-gray-50 border-b text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            <tr>
-              <th className="px-6 py-4">Case ID</th>
-              <th className="px-6 py-4">Customer</th>
-              <th className="px-6 py-4">Live Commitment Time</th>
-              <th className="px-6 py-4">Amount at Risk</th>
-              <th className="px-6 py-4">Fulfillment Method</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4 text-right">Autonomous Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 bg-white">
-            {filteredCases.map((ptp) => (
-              <tr key={ptp.id} className="hover:bg-blue-50/40 transition-colors">
-                <td className="px-6 py-4 font-mono font-bold text-brand-primary">{ptp.id}</td>
-                <td className="px-6 py-4">
-                  <div className="font-semibold text-gray-900">{ptp.customerName}</div>
-                  <div className="text-xs text-gray-400 italic truncate max-w-xs mt-0.5" title={ptp.transcriptExcerpt}>
-                    {ptp.transcriptExcerpt}
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="text-sm font-medium text-gray-800">{ptp.promisedDateStr}</div>
-                  <div className="text-xs text-gray-500 font-mono">{ptp.promisedTime}</div>
-                </td>
-                <td className="px-6 py-4 font-bold text-gray-900 font-mono">
-                  {formatINR(ptp.amountPaise)}
-                </td>
-                <td className="px-6 py-4">
-                  <span className="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-700 rounded">
-                    {ptp.method}
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <StatusBadge status={ptp.status} />
-                </td>
-                <td className="px-6 py-4 text-right space-x-2">
-                  {ptp.status === 'PTP_LOCKED' && (
-                    <>
-                      <button
-                        onClick={() => handleSendReminder(ptp)}
-                        className="px-2.5 py-1 text-xs font-semibold bg-blue-50 text-brand-primary border border-blue-200 rounded hover:bg-brand-primary hover:text-white transition-colors"
-                      >
-                        Send Reminder
-                      </button>
-                      <button
-                        onClick={() => handleMarkFulfilled(ptp.id)}
-                        className="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 rounded hover:bg-emerald-600 hover:text-white transition-colors"
-                      >
-                        Mark Kept ✓
-                      </button>
-                    </>
-                  )}
-                  {ptp.status === 'RECOVERED' && (
-                    <span className="text-xs font-semibold text-emerald-600">Settlement Verified</span>
-                  )}
-                  {ptp.status === 'ESCALATED_HUMAN' && (
-                    <span className="text-xs font-semibold text-red-600">In Review Desk</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {filteredCases.length === 0 && (
+        {/* Horizontal Scroll Slider Wrapper */}
+        <div className="overflow-x-auto w-full">
+          <table className="min-w-[1100px] w-full text-left text-sm whitespace-nowrap divide-y divide-gray-200">
+            <thead className="bg-gray-50 border-b text-xs font-semibold text-gray-500 uppercase tracking-wider">
               <tr>
-                <td colSpan={7} className="px-6 py-12 text-center text-gray-500 text-sm">
-                  No Promise-to-Pay commitments scheduled for this filter.
-                </td>
+                <th className="px-6 py-4">Case ID</th>
+                <th className="px-6 py-4">Customer & Audio Transcript</th>
+                <th className="px-6 py-4">Live Commitment Time</th>
+                <th className="px-6 py-4">Amount at Risk</th>
+                <th className="px-6 py-4">Fulfillment Method</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4 text-right">Autonomous Action</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-100 bg-white">
+              {filteredCases.map((ptp) => (
+                <tr key={ptp.id} className="hover:bg-blue-50/40 transition-colors">
+                  <td className="px-6 py-4 font-mono font-bold text-brand-primary">{ptp.id}</td>
+                  <td className="px-6 py-4">
+                    <div className="font-semibold text-gray-900">{ptp.customerName}</div>
+                    <div className="text-xs text-gray-500 italic mt-0.5 whitespace-normal max-w-sm" title={ptp.transcriptExcerpt}>
+                      {ptp.transcriptExcerpt}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm font-medium text-gray-800">{ptp.promisedDateStr}</div>
+                    <div className="text-xs text-gray-500 font-mono">{ptp.promisedTime}</div>
+                  </td>
+                  <td className="px-6 py-4 font-bold text-gray-900 font-mono">
+                    {formatINR(ptp.amountPaise)}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="text-xs font-medium px-2.5 py-1 bg-gray-100 text-gray-700 rounded-md border border-gray-200">
+                      {ptp.method}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <StatusBadge status={ptp.status} />
+                  </td>
+                  <td className="px-6 py-4 text-right space-x-2">
+                    {ptp.status === 'PTP_LOCKED' && (
+                      <>
+                        <button
+                          onClick={() => handleSendReminder(ptp)}
+                          className="px-3 py-1.5 text-xs font-semibold bg-blue-50 text-brand-primary border border-blue-200 rounded-lg hover:bg-brand-primary hover:text-white transition-colors cursor-pointer"
+                        >
+                          Send Reminder
+                        </button>
+                        <button
+                          onClick={() => handleMarkFulfilled(ptp.id)}
+                          className="px-3 py-1.5 text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-600 hover:text-white transition-colors cursor-pointer"
+                        >
+                          Mark Kept ✓
+                        </button>
+                      </>
+                    )}
+                    {ptp.status === 'RECOVERED' && (
+                      <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                        Settlement Verified
+                      </span>
+                    )}
+                    {ptp.status === 'ESCALATED_HUMAN' && (
+                      <span className="text-xs font-semibold text-red-600 bg-red-50 px-2.5 py-1 rounded-md border border-red-200">
+                        In Review Desk
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {filteredCases.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500 text-sm">
+                    No Promise-to-Pay commitments scheduled for this filter.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
