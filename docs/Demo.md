@@ -45,7 +45,7 @@ flowchart LR
     subgraph FLOW1["Workflow 1: D2C E-Commerce Recovery"]
         F1_FAIL["Simulate HDFC UPI Failure"] --> F1_SENTINEL["Passive Telemetry Cooldown"]
         F1_SENTINEL --> F1_WA["WhatsApp 1-Click Dynamic Link"]
-        F1_WA --> F1_SETTLE["Customer Pays &rarr; Hard Stop in 64ms"]
+        F1_WA --> F1_SETTLE["Customer Pays -> Hard Stop in 64ms"]
     end
 
     subgraph FLOW2["Workflow 2: B2B Voice & PTP Lock"]
