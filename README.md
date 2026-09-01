@@ -52,37 +52,37 @@ In Indian digital commerce, payment failures and unpaid B2B invoices trigger sub
 ## 🏛️ System Architecture
 
 ```mermaid
-flowchart TD
-    subgraph Ingestion ["1. INGESTION AND SENTINEL"]
-        A["Razorpay Webhooks and Events"] --> B["HMAC-SHA256 Auth and Idempotency"]
-        B --> C["Passive Bank Health Sentinel"]
+graph TD
+    subgraph Ingestion [1. Ingestion and Sentinel]
+        A[Razorpay Webhooks and Events] --> B[HMAC-SHA256 Auth and Idempotency]
+        B --> C[Passive Bank Health Sentinel]
     end
 
-    subgraph Intelligence ["2. DIAGNOSTIC REASONING"]
-        C --> D["Tier 0: Deterministic Rule Classifier (Sub-5ms)"]
-        D -->|Ambiguous Cases| E["Tier 1: Gemini 2.5 Flash or Groq LLM"]
-        E --> F["DGN-01 to 12 Root Cause Diagnosis"]
+    subgraph Intelligence [2. Diagnostic Reasoning]
+        C --> D[Tier 0: Fast Rule Classifier Sub-5ms]
+        D -->|Ambiguous Cases| E[Tier 1: Gemini 2.5 Flash / Groq LLM]
+        E --> F[DGN-01 to 12 Root Cause Diagnosis]
     end
 
-    subgraph Governance ["3. POLICY GATEWAY - BOUNDED INVARIANT"]
-        F --> G["Policy Gatekeeper (Deterministic Code)"]
-        G --> H{"Stopping Rules and Safety Gates"}
-        H -->|Holdout Group| I["A11: Suppress and Measure Control"]
-        H -->|Disputed or High Value| J["A10: Escalate to Human Console"]
-        H -->|Approved Policy| K["A1 to A9: Recovery Action Catalog"]
+    subgraph Governance [3. Policy Gateway and Safety Gates]
+        F --> G[Policy Gatekeeper Deterministic Code]
+        G --> H{Stopping Rules and Safety Gates}
+        H -->|Holdout Group| I[A11: Suppress and Measure Control]
+        H -->|Disputed or High Value| J[A10: Escalate to Human Console]
+        H -->|Approved Policy| K[A1 to A9: Recovery Action Catalog]
     end
 
-    subgraph Mesh ["4. EXECUTION MESH AND CHANNELS"]
-        K --> L["WhatsApp 1-Click Payment Templates"]
-        K --> M["B2B Staged Dunning Email Engine"]
-        K --> N["LiveKit WebRTC Hinglish Voice Agent"]
-        K --> O["Mandate Auto-Retry Clearing Scheduler"]
+    subgraph Channels [4. Multi-Channel Execution Mesh]
+        K --> L[WhatsApp 1-Click Payment Templates]
+        K --> M[B2B Staged Dunning Email Engine]
+        K --> N[LiveKit WebRTC Hinglish Voice Agent]
+        K --> O[Mandate Auto-Retry Clearing Scheduler]
     end
 
-    subgraph Verification ["5. SETTLEMENT AND AUDIT"]
-        P["payment.authorized or order.paid"] --> Q["Sub-100ms Settlement Abort Engine"]
-        Q --> R["Immutable SHA-256 Hash Chain Ledger"]
-        R --> S["Next.js 15 Operator Revenue Radar"]
+    subgraph Settlement [5. Settlement and Audit Verification]
+        P[payment.authorized or order.paid] --> Q[Sub-100ms Settlement Abort Engine]
+        Q --> R[Immutable SHA-256 Hash Chain Ledger]
+        R --> S[Next.js 15 Operator Revenue Radar]
     end
 
     L --> P

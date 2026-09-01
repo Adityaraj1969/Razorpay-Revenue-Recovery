@@ -21,42 +21,42 @@ RevLoop AI is built around four non-negotiable architectural invariants:
 ## 2. End-to-End System Architecture Diagram
 
 ```mermaid
-flowchart TB
-    subgraph INGESTION["1. Telemetry & Ingestion Mesh"]
-        WH["Razorpay Webhook Receiver<br/>HMAC-SHA256 Verified"]
-        POLL["Reconciliation Poller<br/>Periodic Missed-Signal Backfill"]
-        ABAN["Abandonment Watcher<br/>Inferred order.created with no paid"]
-        SENTINEL["Passive Bank Health Sentinel<br/>Rolling 50-Event Sliding Window"]
+graph TB
+    subgraph INGESTION [1. Telemetry and Ingestion Mesh]
+        WH[Razorpay Webhook Receiver - HMAC-SHA256 Verified]
+        POLL[Reconciliation Poller - Periodic Signal Backfill]
+        ABAN[Abandonment Watcher - Inferred order.created]
+        SENTINEL[Passive Bank Health Sentinel - 50-Event Sliding Window]
     end
 
-    subgraph BROKER["2. Distributed Event Bus & Deduplicator"]
-        REDIS_Q["Redis BullMQ Distributed Broker<br/>Token-Bucket Rate Limiter 14 RPM"]
-        DEDUP["Idempotency & Bloom Filter<br/>SETNX idemp:event:ID 7d TTL"]
+    subgraph BROKER [2. Distributed Event Bus and Deduplicator]
+        REDIS_Q[Redis BullMQ Distributed Broker - Token-Bucket Limiter]
+        DEDUP[Idempotency and Bloom Filter - SETNX idemp:event:ID]
     end
 
-    subgraph COGNITIVE["3. Cognitive Diagnostic Core"]
-        DGN_RULE["Deterministic Rule Classifier<br/>Fast Error-Code Mapping DGN-01..07 (78% bypass)"]
-        DGN_LLM["Cognitive LLM Micro-Batcher<br/>Gemini 2.5 Flash / Groq (DGN-08..12)"]
+    subgraph COGNITIVE [3. Cognitive Diagnostic Core]
+        DGN_RULE[Deterministic Rule Classifier - Fast Mapping DGN-01 to 07]
+        DGN_LLM[Cognitive LLM Micro-Batcher - Gemini 2.5 Flash / Groq]
     end
 
-    subgraph GOVERNANCE["4. Deterministic Policy & Stopping Engine"]
-        POLICY["Deterministic Policy Gate<br/>(Case, Diagnosis, Config) -> Action"]
-        GUARD["Regulatory & Stopping Guard<br/>TRAI Hours, NPCI Mandate Windows, Concession Floor"]
-        LOCK["Distributed Concurrency Mutex<br/>Redlock lock:recovery:case_id"]
+    subgraph GOVERNANCE [4. Deterministic Policy and Stopping Engine]
+        POLICY[Deterministic Policy Gate - Action Evaluator]
+        GUARD[Regulatory and Stopping Guard - TRAI and Concession Floor]
+        LOCK[Distributed Concurrency Mutex - Redlock Mutex]
     end
 
-    subgraph EXECUTION["5. Bounded Multi-Channel Mesh (A1..A11)"]
-        RETRY["A1/A6: Smart Mandate Retrier<br/>Razorpay Subscriptions API"]
-        WA["A2/A4/A5: WhatsApp 1-Click Bot<br/>Meta Cloud API Sandbox + Mock Adapter"]
-        VOICE["A9: In-Browser Hinglish Voice Agent<br/>LiveKit WebRTC + Gemini Live Audio / Kokoro"]
-        DUNNING["A8: B2B Staged Dunning Engine<br/>Razorpay Invoices + Smart Collect"]
+    subgraph EXECUTION [5. Bounded Multi-Channel Mesh A1 to A11]
+        RETRY[A1/A6: Smart Mandate Retrier - Razorpay Subscriptions]
+        WA[A2/A4/A5: WhatsApp 1-Click Bot - Meta Cloud API]
+        VOICE[A9: Hinglish Voice Agent - LiveKit WebRTC]
+        DUNNING[A8: B2B Staged Dunning Engine - Razorpay Invoices]
     end
 
-    subgraph VERIFICATION["6. Verification, Ledger & Operator Console"]
-        VERIFY["Authoritative Verification Service<br/>Razorpay Payment & Virtual Account Sync"]
-        AUDIT["Per-Case Hash Ledger + Merkle Root<br/>case_events (SHA-256 Chained)"]
-        DASH["Merchant Operations Radar<br/>Next.js 15 + Server-Sent Events"]
-        HUMAN["Human Console Desk<br/>HITL Review for DGN-09/12 & High Value"]
+    subgraph VERIFICATION [6. Verification Ledger and Operator Console]
+        VERIFY[Authoritative Verification Service - Razorpay Sync]
+        AUDIT[Per-Case Hash Ledger and Merkle Root - SHA-256 Chained]
+        DASH[Merchant Operations Radar - Next.js 15 SSE]
+        HUMAN[Human Console Desk - HITL Review for DGN-09/12]
     end
 
     WH --> DEDUP
@@ -64,16 +64,13 @@ flowchart TB
     ABAN --> DEDUP
     SENTINEL --> REDIS_Q
     DEDUP --> REDIS_Q
-
     REDIS_Q --> DGN_RULE
-    DGN_RULE -->|Unresolved or Ambiguous| DGN_LLM
-    DGN_RULE -->|Resolved 78%| POLICY
+    DGN_RULE -->|78% Rule Match| POLICY
+    DGN_RULE -->|22% Ambiguous| DGN_LLM
     DGN_LLM --> POLICY
-
     POLICY --> GUARD
     GUARD -->|Violation or Low Conf| HUMAN
     GUARD -->|Approved| LOCK
-
     LOCK --> RETRY
     LOCK --> WA
     LOCK --> VOICE
