@@ -136,34 +136,34 @@ To comply strictly with NPCI and payment gateway access policies (which prohibit
        ╔═════════════════════════════╗                 ╔═════════════════════════════╗
        ║ INSTANT DIRECT RESOLUTION   ║                 ║ MICRO-BATCHED LLM QUEUE     ║
        ║ • 780 Cases Resolved in 5ms ║                 ║ • Grouped 10 cases/request  ║
-       ║ • Zero LLM Calls Required   ║                 ║ • 22 API calls via BullMQ   ║
-       ╚═════════════════════════════╝                 ║ • Completed in <90 Seconds  ║
-                                                       ╚═════════════════════════════╝
-```
-
-1. **Rule-First Bypass (78% of Volume):** Standard Razorpay failure codes (`INSUFFICIENT_FUNDS`, `CARD_EXPIRED`, `GATEWAY_TIMEOUT`) are resolved instantly by deterministic rules in $<5\text{ms}$ without making an LLM API call.
-2. **Micro-Batching (22% Ambiguous Volume):** The remaining ~220 complex/B2B cases are grouped into micro-batches of 10 items per LLM prompt, reducing 220 cases to just 22 API calls.
-3. **Multi-Provider Free-Tier Balancing:** Queues alternate between Google AI Studio (Gemini 2.5 Flash, 15 RPM) and Groq Cloud (Llama 3.3 70B, 30 RPM), clearing the entire batch in under 90 seconds.
+| **A1** | Smart Mandate Retrier | `DGN-01`, `DGN-03` | Max 3 retries, NPCI clearing windows only |
+| **A2** | WhatsApp 1-Click Payment Link | `DGN-01`, `DGN-02` | Max 3 messages, 12h cooldown, no discount |
+| **A3** | WhatsApp Instrument Switcher | `DGN-02` | Prompts card update via Hosted Checkout |
+| **A4** | Telemetry Cooldown + Deep-Link | `DGN-05`, `DGN-06` | Holds outreach until bank uptime recovers |
+| **A5** | Cart Recovery + Dynamic Waiver | `DGN-04` | Max 5.0% discount, 15-minute token TTL |
+| **A6** | UPI AutoPay Smart Sequencer | `DGN-01` | Sequenced at 08:30 AM / 18:30 PM IST |
+| **A7** | Smart Collect Virtual Account | `DGN-08`, `DGN-10` | Dynamic NEFT/RTGS payment instructions |
+| **A8** | B2B Staged Dunning Escalation | `DGN-08` | Day 1 WhatsApp -> Day 5 Email -> Day 10 Voice |
+| **A9** | In-Browser Hinglish Voice Agent | `DGN-08`, `DGN-11` | LiveKit WebRTC, PTP extraction |
+| **A10** | Escalate to Human Console Desk | `DGN-09`, `DGN-12` | High-value threshold (> ₹2,00,000) or dispute |
+| **A11** | Randomized Holdout (Control) | All Categories | 10% isolated control group, zero outreach |
 
 ---
 
-## 6. Event-Sourced Data Model & Per-Case Cryptographic Ledger
+## 6. Cryptographic Audit Ledger & Per-Case Hash Chaining
 
-$$\text{RecordHash}_{c, k} = \text{SHA256}\left(\text{CaseID} + \text{Payload}_{c, k} + \text{RecordHash}_{c, k-1}\right)$$
+Every transition in a case lifecycle generates an append-only event record cryptographically chained via SHA-256:
 
-Because distributed workers acquire a distributed `Redlock(case_id)` before mutating case state, writes to any individual case are strictly sequential. Concurrently processed cases append to the log in parallel without blocking each other.
+$$H_0 = \text{SHA-256}(\text{"GENESIS"} \parallel \text{CaseID} \parallel T_0)$$
+$$H_n = \text{SHA-256}(H_{n-1} \parallel \text{EventType} \parallel \text{PayloadHash} \parallel T_n)$$
 
-```
- Case A Pipeline ──[Redlock A]──▶ Event A1 (Hash A1) ──▶ Event A2 (Hash A2) ──┐
-                                                                              ├──▶ Hourly Merkle Root
- Case B Pipeline ──[Redlock B]──▶ Event B1 (Hash B1) ──▶ Event B2 (Hash B2) ──┘
-```
+This guarantees mathematical non-repudiation: any alteration of diagnostic data, policy decisions, or concession values invalidates the hash chain and triggers an alert on the Operator Dashboard.
 
 ---
 
 ## 7. End-to-End Sequence Workflows
 
-### 7.1 Scenario 1: Bank Degradation & WhatsApp 1-Click Recovery
+### 7.1 Scenario 1: Bank Degradation and WhatsApp 1-Click Recovery
 ```mermaid
 sequenceDiagram
     autonumber
@@ -171,27 +171,27 @@ sequenceDiagram
     participant Checkout as Merchant Checkout
     participant RZP as Razorpay Gateway
     participant Sentinel as Passive Bank Health Sentinel
-    participant Core as RevLoop Core & Policy
+    participant Core as RevLoop Core and Policy
     participant WA as WhatsApp Execution Mesh
 
-    Payer->>Checkout: Submits ₹3,499 Order (HDFC UPI)
+    Payer->>Checkout: Submits Rs 3,499 Order (HDFC UPI)
     Checkout->>RZP: Process Payment Request
     RZP-->>Checkout: Failed (BAD_REQUEST_PAYMENT_TIMED_OUT)
     RZP->>Core: Webhook: payment.failed (HDFC UPI)
 
-    Sentinel->>Core: Passive Telemetry: HDFC UPI degraded (Sliding failure rate >= 30%)
+    Sentinel->>Core: Passive Telemetry: HDFC UPI degraded (Failure rate >= 30%)
     Core->>Core: Classify: DGN-05 (technical_gateway_timeout) via Rule Engine (3.8ms)
     Core->>Core: Policy Rule POL-03: Hold 8 mins until Bank Uptime recovers (>= 90%)
 
-    Note over Core: 8-Min Wait & Health Check (HDFC Uptime Now 96%)
+    Note over Core: 8-Min Wait and Health Check (HDFC Uptime Now 96%)
     Core->>WA: Action A4: Send WhatsApp 1-Click Interactive Link
-    WA->>Payer: "Hi Rahul! Your payment got stuck due to HDFC latency. Cart reserved for 15 mins. Tap below to complete via UPI."
-    Payer->>WA: Clicks [⚡ Complete Payment via UPI]
+    WA->>Payer: Hi Rahul! Your payment got stuck due to HDFC latency. Cart reserved for 15 mins. Tap below to complete via UPI.
+    Payer->>WA: Clicks Complete Payment via UPI
     WA->>RZP: Dynamic Payment Link (Pre-routed via ICICI UPI)
-    Payer->>RZP: Authorizes ₹3,499 via Google Pay
-    RZP->>Core: Webhook: payment.authorized (₹3,499)
+    Payer->>RZP: Authorizes Rs 3,499 via Google Pay
+    RZP->>Core: Webhook: payment.authorized (Rs 3,499)
     Core->>Core: Hard Stop Triggered: Cancel all scheduled reminders in 64ms
-    Core->>Core: Verification Service: Confirm state -> Mark RECOVERED
+    Core->>Core: Verification Service: Confirm state and Mark RECOVERED
 ```
 
 ---
@@ -208,17 +208,17 @@ sequenceDiagram
     participant PTP as PTP State Machine
     participant RZP as Razorpay Smart Collect
 
-    ERP->>Agent: Invoice #INV-8821 Overdue by 18 Days (₹85,000)
+    ERP->>Agent: Invoice INV-8821 Overdue by 18 Days (Rs 85,000)
     Agent->>Agent: Evaluate Governance: Calling window valid (11:30 AM IST), Attempts: 0/2
     Agent->>LK: Open WebRTC Voice Room
     LK->>Client: In-Browser Simulated Call Connected
     
-    Client->>LK: Audio Stream: "Haanji, kaun bol raha hai?"
+    Client->>LK: Audio Stream: Haanji, kaun bol raha hai?
     LK->>Gemini: Bidirectional Audio Stream
-    Gemini-->>LK: Streamed Hinglish Audio: "Namaste Sharma ji, TechServe Finance se Aarav bol raha hoon. ₹85,000 ka invoice pending hai."
+    Gemini-->>LK: Streamed Hinglish Audio: Namaste Sharma ji, TechServe Finance se Aarav bol raha hoon. Rs 85,000 ka invoice pending hai.
     LK-->>Client: Natural Hinglish Audio (p95 Sub-785ms turnaround)
 
-    Client->>LK: "Arre bhai, abhi account manager bahar hai. Main parso subah 11 baje tak RTGS karwa dunga pakka."
+    Client->>LK: Arre bhai, abhi account manager bahar hai. Main parso subah 11 baje tak RTGS karwa dunga pakka.
     LK->>Agent: Captured Transcript
     Agent->>Agent: Extract Temporal Entity: { ptp_timestamp: "2026-08-26T11:00:00+05:30", amount: 85000, method: "RTGS" }
     
