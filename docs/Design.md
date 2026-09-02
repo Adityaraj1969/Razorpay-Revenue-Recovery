@@ -13,18 +13,18 @@ The database architecture implements an **Event-Sourced Relational Hybrid**: the
 
 ```mermaid
 erDiagram
-    MERCHANTS ||--o{ CASES : owns
-    CUSTOMERS ||--o{ CASES : references
-    CASES ||--o{ CASE_EVENTS : source_of_truth
-    CASES ||--o{ DIAGNOSES : classified_by
-    CASES ||--o{ RECOVERY_ATTEMPTS : executes
-    CASES ||--o{ PROMISE_TO_PAY : tracks
-    RECOVERY_ATTEMPTS ||--o{ RULE_EVALUATIONS : gated_by
-    CASES ||--o| RAZORPAY_SETTLEMENTS : verified_by
+    MERCHANTS ||--o{ CASES : "owns"
+    CUSTOMERS ||--o{ CASES : "references"
+    CASES ||--o{ CASE_EVENTS : "source_of_truth"
+    CASES ||--o{ DIAGNOSES : "classified_by"
+    CASES ||--o{ RECOVERY_ATTEMPTS : "executes"
+    CASES ||--o{ PROMISE_TO_PAY : "tracks"
+    RECOVERY_ATTEMPTS ||--o{ RULE_EVALUATIONS : "gated_by"
+    CASES ||--o| RAZORPAY_SETTLEMENTS : "verified_by"
 
     MERCHANTS {
         uuid id PK
-        string rzp_merchant_id UK
+        string rzp_merchant_id
         string business_name
         string webhook_secret
         jsonb config_guardrails
@@ -123,6 +123,30 @@ erDiagram
 ---
 
 ## 2. Core SQL DDL & Table Specifications
+
+The following visual relational topology details the primary keys, foreign keys, and 1-to-N relationships across all eight database tables defined in the schema migration below:
+
+```mermaid
+graph TD
+    subgraph Core_Schema["Core SQL DDL Relational Topology"]
+        MERCHANTS["MERCHANTS (Master)<br/>- id (PK: UUID)<br/>- rzp_merchant_id (Unique)<br/>- webhook_secret<br/>- config_guardrails (JSONB)"]
+        CUSTOMERS["CUSTOMERS<br/>- id (PK: UUID)<br/>- merchant_id (FK)<br/>- phone_hash / email_hash<br/>- is_opted_out (boolean)"]
+        CASES["CASES (Active Projection)<br/>- case_id (PK: UUID)<br/>- merchant_id (FK)<br/>- customer_id (FK)<br/>- amount_at_risk_paise<br/>- current_status (Enum)<br/>- root_cause / policy_action"]
+        CASE_EVENTS["CASE_EVENTS (Event Sourced Ledger)<br/>- global_event_id (PK: UUID)<br/>- case_id (FK)<br/>- sequence_number (Monotonic)<br/>- event_type / actor / payload<br/>- SHA-256 current_record_hash"]
+        DIAGNOSES["DIAGNOSES<br/>- diagnosis_id (PK: UUID)<br/>- case_id (FK)<br/>- diagnosis_code (DGN-01..12)<br/>- confidence (float)"]
+        RECOVERY["RECOVERY_ATTEMPTS<br/>- attempt_id (PK: UUID)<br/>- case_id (FK)<br/>- channel (Voice/WA/Retry/Email)<br/>- delivery_status / cost"]
+        PTP["PROMISE_TO_PAY<br/>- ptp_id (PK: UUID)<br/>- case_id (FK)<br/>- promised_timestamp<br/>- promised_amount_paise"]
+        SETTLEMENTS["RAZORPAY_SETTLEMENTS<br/>- settlement_id (PK: UUID)<br/>- case_id (FK)<br/>- rzp_payment_id (Authoritative)<br/>- settled_at (Timestamp)"]
+    end
+
+    MERCHANTS -->|1:N owns| CASES
+    CUSTOMERS -->|1:N references| CASES
+    CASES -->|1:N source of truth| CASE_EVENTS
+    CASES -->|1:N classified by| DIAGNOSES
+    CASES -->|1:N executes| RECOVERY
+    CASES -->|1:N tracks| PTP
+    CASES -->|1:1 verified by| SETTLEMENTS
+```
 
 ```sql
 -- Schema Migration: RevLoop AI Core
