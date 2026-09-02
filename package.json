@@ -22,7 +22,6 @@
     "test:unit": "pnpm --filter @revloop/api test:unit",
     "test:integration": "pnpm --filter @revloop/api test:integration",
     "test:chaos": "pnpm --filter @revloop/api test:chaos",
-    "test:validation": "vitest run tests/validation",
     "db:migrate": "pnpm --filter @revloop/db migrate",
     "db:push": "pnpm --filter @revloop/db db:push",
     "db:generate": "pnpm --filter @revloop/db generate",

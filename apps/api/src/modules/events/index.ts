@@ -1,1 +1,1 @@
-export * from './sseHandler.js';
+export * from './eventPublisher.js';

@@ -2,7 +2,7 @@
 ## RevLoop AI: Autonomous Closed-Loop Revenue Recovery Engine
 **Hackathon Track:** Razorpay Buildathon — Track 03: AI Revenue Recovery  
 **Target Platform:** Razorpay Ecosystem (100% Open-Source & Free-Tier Toolchain)  
-**Document Version:** 2.4.0-VERIFIED-BENCHMARK  
+**Document Version:** 2.4.0  
 **Status:** Approved Master UI/UX Specification  
 
 ---

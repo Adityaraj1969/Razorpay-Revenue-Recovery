@@ -2,7 +2,7 @@
 ## RevLoop AI: Autonomous Closed-Loop Revenue Recovery Engine
 **Hackathon Track:** Razorpay Buildathon — Track 03: AI Revenue Recovery  
 **Target Platform:** Razorpay Ecosystem (100% Open-Source & Free-Tier Toolchain)  
-**Document Version:** 2.4.0-VERIFIED-BENCHMARK  
+**Document Version:** 2.4.0  
 **Status:** Approved Master Submission Document  
 
 ---
@@ -171,19 +171,16 @@ RevLoop AI natively embeds statutory frameworks governing Indian financial commu
 To locally reproduce the test suites, benchmark latencies, and interactive interfaces:
 
 ```bash
-# 1. Execute full Vitest unit test suite (29/29 tests passing)
+# 1. Execute full Vitest unit test suite
 pnpm exec vitest run tests/unit/
 
-# 2. Run real execution micro-benchmark (N = 1,500 iterations)
-node benchmark_runner.js
-
-# 3. Validate PostgreSQL Prisma Schema
+# 2. Validate PostgreSQL Prisma Schema
 pnpm --filter @revloop/db exec prisma validate
 
-# 4. Launch local infrastructure (PostgreSQL 16, Redis 7.4, LiveKit Server)
+# 3. Launch local infrastructure (PostgreSQL 16, Redis 7.4, LiveKit Server)
 docker compose up -d
 
-# 5. Launch Fastify API & Next.js 15 Radar Dashboard
+# 4. Launch Fastify API & Next.js 15 Radar Dashboard
 pnpm dev
 ```
 

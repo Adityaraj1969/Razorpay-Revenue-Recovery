@@ -20,7 +20,7 @@
 
 > **"Find revenue that’s slipping away and win it back."**  
 > *Core Architectural Invariant: "The LLM Proposes, The Code Disposes."*  
-> *Release Version:* `2.4.0-ENTERPRISE-PROD`
+> *Release Version:* `2.4.0`
 
 ---
 
