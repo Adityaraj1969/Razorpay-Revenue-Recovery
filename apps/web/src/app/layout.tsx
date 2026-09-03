@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Sidebar } from '../components/Sidebar';
+import { HITLProvider } from '../lib/HITLContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,13 +18,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} flex h-screen bg-gray-50 overflow-hidden`}>
-        {/* Dynamic Sidebar with active routes and collapse toggle */}
-        <Sidebar />
+        <HITLProvider>
+          {/* Dynamic Sidebar with active routes and collapse toggle */}
+          <Sidebar />
 
-        {/* Main content scroll container */}
-        <main className="flex-1 overflow-y-auto">
-          {children}
-        </main>
+          {/* Main content scroll container */}
+          <main className="flex-1 overflow-y-auto">
+            {children}
+          </main>
+        </HITLProvider>
       </body>
     </html>
   );

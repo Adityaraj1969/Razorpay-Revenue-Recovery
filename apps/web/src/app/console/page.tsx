@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { formatINR } from '../../lib/formatters';
+import { useHITLCount } from '../../lib/HITLContext';
 
 interface HITLCase {
   id: string;
@@ -88,6 +89,11 @@ export default function ConsolePage() {
   };
 
   const pendingCount = cases.filter((c) => c.status === 'PENDING_REVIEW').length;
+  const { setPendingCount } = useHITLCount();
+
+  useEffect(() => {
+    setPendingCount(pendingCount);
+  }, [pendingCount, setPendingCount]);
 
   return (
     <div className="p-8 space-y-6">

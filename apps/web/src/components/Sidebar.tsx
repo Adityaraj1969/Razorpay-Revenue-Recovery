@@ -5,15 +5,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Logo } from './Logo';
+import { useHITLCount } from '../lib/HITLContext';
 
 export const Sidebar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
+  const { pendingCount } = useHITLCount();
 
   const navItems = [
     { name: 'Revenue Radar', icon: '📊', path: '/' },
     { name: 'Opportunities & Pipeline', icon: '📋', path: '/cases' },
-    { name: 'Human Console', icon: '⚠️', path: '/console', badge: 3 },
+    { name: 'Human Console', icon: '⚠️', path: '/console' },
     { name: 'PTP Calendar', icon: '📅', path: '/ptp' },
     { name: 'Audit Log', icon: '🔒', path: '/audit' },
     { name: 'Settings', icon: '⚙️', path: '/settings' },
@@ -41,6 +43,7 @@ export const Sidebar: React.FC = () => {
       <nav className="flex-1 overflow-y-auto py-4 space-y-1">
         {navItems.map((item) => {
           const isActive = pathname === item.path;
+          const showBadge = item.path === '/console' && pendingCount > 0;
           return (
             <Link 
               key={item.name}
@@ -52,9 +55,9 @@ export const Sidebar: React.FC = () => {
               {!collapsed && (
                 <span className="ml-3 font-medium flex-1 text-sm">{item.name}</span>
               )}
-              {!collapsed && item.badge && (
+              {!collapsed && showBadge && (
                 <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                  {item.badge}
+                  {pendingCount}
                 </span>
               )}
             </Link>
